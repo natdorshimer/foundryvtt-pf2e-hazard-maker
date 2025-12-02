@@ -1,10 +1,10 @@
 {
-    "id": "pf2e-monster-maker",
-    "name": "pf2e-monster-maker",
-    "title": "PF2E Monster Maker",
-    "description": "A module that allows you to make an NPC/Monster from scratch using Creature Building Rules. To use create a new NPC sheet and use the Monster Maker button located in top-right corner of the sheet.",
+    "id": "pf2e-hazard-maker",
+    "name": "pf2e-hazard-maker",
+    "title": "PF2E Hazard Maker",
+    "description": "A module that allows you to make an Hazard from scratch using Creature Building Rules. To use create a new NPC sheet and use the Hazard Maker button located in top-right corner of the sheet.",
     "version": "REPLACED AUTOMATICALLY",
-    "authors": [{"name": "miki4920"}],
+    "authors": [{"name": "natdorshimer"}],
     "minimumCoreVersion": "13",
     "compatibleCoreVersion": "13",
     "compatibility": {
@@ -45,7 +45,7 @@
             "manifest": "https://github.com/foundryvtt/pf2e/releases/latest/download/system.json"
         }]
     },
-    "url": "https://github.com/miki4920/foundryvtt-pf2e-monster-maker",
-    "manifest": "https://github.com/miki4920/foundryvtt-pf2e-monster-maker/releases/latest/download/module.json",
-    "download": "https://github.com/miki4920/foundryvtt-pf2e-monster-maker/releases/latest/download/module.zip"
+    "url": "https://github.com/natdorshimer/foundryvtt-pf2e-hazard-maker",
+    "manifest": "https://github.com/natdorshimer/foundryvtt-pf2e-hazard-maker/releases/latest/download/module.json",
+    "download": "https://github.com/natdorshimer/foundryvtt-pf2e-hazard-maker/releases/latest/download/module.zip"
 }

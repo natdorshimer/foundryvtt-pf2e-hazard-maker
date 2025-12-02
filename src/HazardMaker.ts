@@ -3,7 +3,7 @@ import {statisticValues} from "./Values";
 import {BaseActor} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 
 
-export class MonsterMaker extends FormApplication {
+export class HazardMaker extends FormApplication {
     data = DefaultCreatureStatistics
     actor = <BaseActor>this.object
     level = "-1"
@@ -12,9 +12,9 @@ export class MonsterMaker extends FormApplication {
         return mergeObject(super.defaultOptions, {
             classes: ["form"],
             popOut: true,
-            template: `modules/pf2e-monster-maker/dist/forms/monsterMakerForm.html`,
-            id: "monsterMakerForm",
-            title: "Monster Maker Form",
+            template: `modules/pf2e-hazard-maker/dist/forms/hazardMakerForm.html`,
+            id: "hazardMakerForm",
+            title: "Hazard Maker Form",
             height: 833,
             width: 400
         });
@@ -40,7 +40,6 @@ export class MonsterMaker extends FormApplication {
         const strikeDamageOption = formData[Statistics.strikeDamage]
         const strikeBonus = parseInt(statisticValues[Statistics.strikeBonus][this.level][strikeBonusOption])
         let strikeDamage = statisticValues[Statistics.strikeDamage][this.level][strikeDamageOption]
-        let strikeDamageID = randomID();
         let strike = {
             name: game["i18n"].localize("PF2EMONSTERMAKER.strike"),
             type: 'melee',
@@ -58,32 +57,6 @@ export class MonsterMaker extends FormApplication {
             },
         };
         return Item.create(strike, {parent: this.actor})
-    }
-
-    applySpellcasting(formData) {
-        const spellcastingOption = formData[Statistics.spellcasting]
-        if (spellcastingOption === Options.none) {
-            return;
-        }
-        const spellcastingBonus = parseInt(statisticValues[Statistics.spellcasting][this.level][spellcastingOption])
-        const spellcasting = {
-            name: game["i18n"].localize("PF2EMONSTERMAKER.spellcasting"),
-            type: "spellcastingEntry",
-            system: {
-                spelldc: {
-                    value: spellcastingBonus,
-                    dc: spellcastingBonus+8,
-                },
-                tradition: {
-                    value: 'arcane',
-                },
-                prepared: {
-                    value: 'innate',
-                },
-                showUnpreparedSpells: { value: true },
-            }
-        };
-        return Item.create(spellcasting, {parent: this.actor})
     }
 
     async applySkills(formData) {
@@ -113,7 +86,6 @@ export class MonsterMaker extends FormApplication {
             await this.actor.update(updateData);
             await this.actor.update(this.applyHitPoints(formData))
             await this.applyStrike(formData)
-            await this.applySpellcasting(formData)
             await this.applySkills(formData)
         }
     }
