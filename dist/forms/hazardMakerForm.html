@@ -1,17 +1,17 @@
 <form>
-    <h1>{{localize "PF2EMONSTERMAKER.title"}}</h1>
-    <h2>{{localize "PF2EMONSTERMAKER.nameLevelRoadmap"}}</h2>
+    <h1>{{localize "PF2EHAZARDMAKER.title"}}</h1>
+    <h2>{{localize "PF2EHAZARDMAKER.nameLevelRoadmap"}}</h2>
     <div class="form-group setting">
         <label for="monsterMakerName" class="monsterMakerFormText">
-            {{localize "PF2EMONSTERMAKER.name"}}
+            {{localize "PF2EHAZARDMAKER.name"}}
         </label>
-        <input id="monsterMakerName" name="PF2EMONSTERMAKER.name" placeholder="{{name}}" class="monsterMakerFormText">
+        <input id="monsterMakerName" name="PF2EHAZARDMAKER.name" placeholder="{{name}}" class="monsterMakerFormText">
     </div>
     <div class="form-group setting">
         <label for="monsterMakerLevel" class="monsterMakerFormText">
-            {{localize "PF2EMONSTERMAKER.level"}}
+            {{localize "PF2EHAZARDMAKER.level"}}
         </label>
-        <select name="PF2EMONSTERMAKER.level" id="monsterMakerLevel" class="monsterMakerFormTextSmall">
+        <select name="PF2EHAZARDMAKER.level" id="monsterMakerLevel" class="monsterMakerFormTextSmall">
             {{#each Levels}}
                 <option value={{this}}>{{this}}</option>
             {{/each}}
@@ -19,13 +19,22 @@
     </div>
     <div class="form-group setting">
         <label for="monsterMakerRoadmap" class="monsterMakerFormText">
-            {{localize "PF2EMONSTERMAKER.roadmap"}}
+            {{localize "PF2EHAZARDMAKER.roadmap"}}
         </label>
         <select id="monsterMakerRoadmap" class="monsterMakerFormTextSmall" onchange=setRoadmap(this)>
             <option value="Default" selected>Default</option>
             {{#each RoadMaps}}
                 <option value="{{@key}}">{{localize @key}}</option>
             {{/each}}
+        </select>
+    </div>
+    <div class="form-group setting">
+        <label for="monsterMakerComplexity" class="monsterMakerFormText">
+            {{localize "PF2EHAZARDMAKER.complexity"}}
+        </label>
+        <select id="monsterMakerComplexity" name="PF2EHAZARDMAKER.complexity" class="monsterMakerFormTextSmall">
+            <option value="PF2EHAZARDMAKER.simple">{{localize "PF2EHAZARDMAKER.simple"}}</option>
+            <option value="PF2EHAZARDMAKER.complex">{{localize "PF2EHAZARDMAKER.complex"}}</option>
         </select>
     </div>
     {{#each CreatureStatistics}}
@@ -56,13 +65,13 @@
 
     {{/each}}
     <div class="buttons">
-        <button type="submit" id="monsterMakerFormSubmit">Submit</button>
+        <button type="submit" id="monsterMakerFormSubmit">{{localize "PF2EHAZARDMAKER.submit"}}</button>
     </div>
 
 </form>
 <script>
-    monsterCreatureStatistics = {{{json CreatureStatistics}}}
-    monsterCreatureRoadmaps = {{{json RoadMaps}}}
+    const monsterCreatureStatistics = {{{json CreatureStatistics}}}
+    const monsterCreatureRoadmaps = {{{json RoadMaps}}}
     function setDefaults() {
         for (const category of monsterCreatureStatistics) {
             for (const statistic of category.statisticEntries) {
@@ -76,6 +85,10 @@
     function setRoadmap(selectedRoadmap) {
         let roadmapValue = selectedRoadmap.value;
         setDefaults();
+        const complexityElement = document.getElementById("monsterMakerComplexity");
+        if (complexityElement && "{{complexity}}" !== "") {
+            complexityElement.value = "{{complexity}}";
+        }
         if(monsterCreatureRoadmaps[roadmapValue]) {
             let roadmap = monsterCreatureRoadmaps[roadmapValue]
             for (const [key, value] of Object.entries(roadmap)) {

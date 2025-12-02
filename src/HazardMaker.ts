@@ -1,12 +1,18 @@
-import {actorFields, DefaultCreatureStatistics, Levels, Statistics, Skills, Options, RoadMaps} from "./Keys";
+import {actorFields, DefaultCreatureStatistics, Levels, Statistics, Options, RoadMaps} from "./Keys";
 import {statisticValues} from "./Values";
 import {BaseActor} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 
 
 export class HazardMaker extends FormApplication {
     data = DefaultCreatureStatistics
-    actor = <BaseActor>this.object
+    actor: BaseActor
     level = "-1"
+    complexity = Options.simple
+
+    constructor(object: BaseActor, options: Record<string, unknown> = {}) {
+        super(object, options);
+        this.actor = object;
+    }
 
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
@@ -30,64 +36,122 @@ export class HazardMaker extends FormApplication {
     }
 
     applyHitPoints(formData) {
-        let option = formData[Statistics.hp]
-        let hitPoints = parseInt(statisticValues[Statistics.hp][this.level][option])
-        return {"system.attributes.hp.value": hitPoints}
+        const option = formData[Statistics.hp]
+        const hitPoints = parseInt(statisticValues[Statistics.hp][this.level][option])
+        const brokenThreshold = Math.floor(hitPoints / 2)
+        return {
+            "system.attributes.hp.max": hitPoints,
+            "system.attributes.hp.value": hitPoints,
+            "system.attributes.hp.brokenThreshold": brokenThreshold
+        }
     }
 
-    applyStrike(formData) {
-        const strikeBonusOption = formData[Statistics.strikeBonus]
-        const strikeDamageOption = formData[Statistics.strikeDamage]
-        const strikeBonus = parseInt(statisticValues[Statistics.strikeBonus][this.level][strikeBonusOption])
-        let strikeDamage = statisticValues[Statistics.strikeDamage][this.level][strikeDamageOption]
-        let strike = {
-            name: game["i18n"].localize("PF2EMONSTERMAKER.strike"),
-            type: 'melee',
+    applyComplexity(formData) {
+        this.complexity = formData[Statistics.complexity] ?? Options.simple
+        const isComplex = this.complexity === Options.complex
+        return {"system.details.isComplex": isComplex}
+    }
+
+    applyStealth(formData) {
+        const option = formData[Statistics.stealth]
+        if (!option) {
+            return {}
+        }
+        const dc = parseInt(statisticValues[Statistics.stealth][this.level][option])
+        const modifier = dc - 10
+        return {
+            "system.attributes.stealth.value": modifier,
+            "system.attributes.stealth.dc": dc
+        }
+    }
+
+    applyDisable(formData) {
+        const option = formData[Statistics.disable]
+        if (!option) {
+            return {}
+        }
+        const dc = parseInt(statisticValues[Statistics.disable][this.level][option])
+        const disableText = game["i18n"].format?.("PF2EHAZARDMAKER.DisableText", {dc}) ?? `Disable DC ${dc}`
+        return {"system.details.disable": disableText}
+    }
+
+    applySaveDC(formData) {
+        const option = formData[Statistics.saveDC]
+        if (!option) {
+            return {}
+        }
+        const dc = parseInt(statisticValues[Statistics.saveDC][this.level][option])
+        return {
+            "system.attributes.classDC.value": dc,
+            "system.attributes.classDC.dc": dc,
+            "system.attributes.classDC.mod": dc - 10
+        }
+    }
+
+    async applyHazardAttack(formData) {
+        const attackOption = formData[Statistics.attackBonus]
+        const damageOption = formData[Statistics.damage]
+        if (!attackOption || attackOption === Options.none || !damageOption || damageOption === Options.none) {
+            return
+        }
+        const attackBonus = parseInt(statisticValues[Statistics.attackBonus][this.level][attackOption])
+        const damage = statisticValues[Statistics.damage][this.level][damageOption]
+        if (Number.isNaN(attackBonus) || !damage) {
+            return
+        }
+
+        const existing = (this.actor.items ?? []).filter((item: any) =>
+            item.getFlag("pf2e-hazard-maker", "generatedAttack"))
+        for (const item of existing) {
+            await item.delete()
+        }
+
+        const strike = {
+            name: game["i18n"].localize?.("PF2EHAZARDMAKER.attackName") ?? "Hazard Attack",
+            type: "melee",
+            flags: {"pf2e-hazard-maker": {generatedAttack: true}},
             system: {
                 damageRolls: {
-                    strikeDamageID: {
-                        damage: strikeDamage,
-                        damageType: 'bludgeoning',
+                    hazardDamageID: {
+                        damage,
+                        damageType: "bludgeoning",
                         category: null
                     },
                 },
                 bonus: {
-                    value: strikeBonus,
+                    value: attackBonus,
                 },
             },
         };
-        return Item.create(strike, {parent: this.actor})
+        await Item.create(strike, {parent: this.actor})
     }
 
-    async applySkills(formData) {
-        for(const skillName of Skills) {
-            const option = formData[skillName]
-            if (option !== Options.none) {
-                const value = parseInt(statisticValues[skillName][this.level][option])
-                const skill = 'system.skills.' + skillName.split('.')[1].toLowerCase();
-                await this.actor.update(foundry.utils.flattenObject({[skill]: {base: value}}));
-            }
+    protected async _updateObject(event: Event, formData?: Record<string, any>) {
+        if(!formData) {
+            return
         }
-    }
+        const updateData = {}
+        this.level = formData[Statistics.level]
 
-    protected async _updateObject(event: Event, formData?: object) {
-        if(formData) {
-            let updateData = {}
-            this.level = formData[Statistics.level]
-            for(const key of Object.keys(formData)) {
-                if(actorFields[key]) {
-                    let actorField = actorFields[key]
-                    let option = formData[key]
-                    updateData[actorField] = parseInt(statisticValues[key][this.level][option])
-                }
+        for (const key of Object.keys(formData)) {
+            if(actorFields[key]) {
+                const actorField = actorFields[key]
+                const option = formData[key]
+                const rawValue = statisticValues[key][this.level][option]
+                updateData[actorField] = parseInt(rawValue)
             }
-            Object.assign(updateData, this.applyName(formData))
-            Object.assign(updateData, this.applyLevel())
-            await this.actor.update(updateData);
-            await this.actor.update(this.applyHitPoints(formData))
-            await this.applyStrike(formData)
-            await this.applySkills(formData)
         }
+
+        Object.assign(updateData, this.applyName(formData))
+        Object.assign(updateData, this.applyLevel())
+        Object.assign(updateData, this.applyComplexity(formData))
+        Object.assign(updateData, this.applyStealth(formData))
+        Object.assign(updateData, this.applyDisable(formData))
+        Object.assign(updateData, this.applyHitPoints(formData))
+        Object.assign(updateData, this.applySaveDC(formData))
+
+        await this.actor.update(updateData);
+        await this.applyHazardAttack(formData)
     }
 
     // @ts-ignore
@@ -95,7 +159,13 @@ export class HazardMaker extends FormApplication {
         Handlebars.registerHelper('json', function(context) {
             return JSON.stringify(context);
         });
-        return {"CreatureStatistics": JSON.parse(JSON.stringify(this.data)), "Levels": Levels, "RoadMaps": RoadMaps, "name": this.actor.name}
+        return {
+            "CreatureStatistics": JSON.parse(JSON.stringify(this.data)),
+            "Levels": Levels,
+            "RoadMaps": RoadMaps,
+            "name": this.actor.name,
+            "complexity": this.complexity
+        }
     }
 
 }
