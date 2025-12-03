@@ -1,15 +1,8 @@
-import {MonsterMaker} from "./MonsterMaker"
+import {HazardMaker} from "./HazardMaker"
 Hooks.on('init', async function () {
-    await game["settings"].register("foundryvtt-pf2e-monster-maker", "roadmaps", {
-        scope: 'world',
-        config: false,
-        type: Object,
-        default: {}
-    });
-
-    await game["settings"].register("pf2e-monster-maker", "abbreviateName", {
-        name:    "Abbreviate Monster Maker",
-        hint:    "Turn this on if you prefer to see “MM” instead of the full title “Monster Maker” in the monster sheet.",
+    await game["settings"].register("pf2e-hazard-maker", "abbreviateName", {
+        name:    "Abbreviate Hazard Maker",
+        hint:    "Turn this on if you prefer to see “HM” instead of the full title “Hazard Maker” in the hazard sheet.",
         scope:   "world",
         config:  true,
         type:    Boolean,
@@ -17,44 +10,44 @@ Hooks.on('init', async function () {
     });
 })
 
-function getMonsterManualLabel () {
+function getHazardManualLabel () {
     return game["settings"].get(
-        "pf2e-monster-maker",
+        "pf2e-hazard-maker",
         "abbreviateName"
-    ) ? "MM" : "Monster Maker";
+    ) ? "HM" : "Hazard Maker";
 }
 
 Hooks.on("renderActorSheet", async function (sheet, html) {
     let actor = sheet.object
-    if (actor?.type !== "npc") {
+    if (actor?.type !== "hazard") {
         return;
     }
     if(!actor.canUserModify(game["user"], "update")) {
         return;
     }
     let element = html.find(".window-header .window-title");
-    let label = getMonsterManualLabel()
+    let label = getHazardManualLabel()
     let button = $(`<a class="popout" style><i style="padding: 0 4px;" class="fas fa-book"></i>${label}</a>`);
     button.on("click", () => {
-        new MonsterMaker(actor).render(true)
+        new HazardMaker(actor).render(true)
     })
     element.after(button);
 })
 
 Hooks.on("renderActorDirectory", function() {
     let footer = $("#actors .directory-footer.action-buttons");
-    if (footer.find("button:contains('Monster Maker')").length === 0) {
-        let monsterButton = $(`<button><i class="fas fa-book"></i>Monster Maker</button>`);
-        footer.append(monsterButton);
+    if (footer.find("button:contains('Hazard Maker')").length === 0) {
+        let hazardButton = $(`<button><i class="fas fa-book"></i>Hazard Maker</button>`);
+        footer.append(hazardButton);
 
-        monsterButton.on("click", function() {
-            let monsterData = {
-                name: "Monster",
-                type: "npc",
+        hazardButton.on("click", function() {
+            let hazardData = {
+                name: "Hazard",
+                type: "hazard",
             };
-            Actor.create(monsterData).then(actor => {
+            Actor.create(hazardData).then(actor => {
                 if (actor) {
-                    new MonsterMaker(actor).render(true);
+                    new HazardMaker(actor).render(true);
                 }
             });
         });

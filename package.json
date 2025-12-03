@@ -1,5 +1,5 @@
 {
-  "name": "foundryvtt-pf2e-monster-maker",
+  "name": "foundryvtt-pf2e-hazard-maker",
   "version": "1.0.0",
   "description": "",
   "main": "webpack.config.js",
@@ -10,6 +10,7 @@
   "license": "ISC",
   "devDependencies": {
     "@league-of-foundry-developers/foundry-vtt-types": "^9.280.0",
+    "copy-webpack-plugin": "^13.0.1",
     "ts-loader": "^9.4.0",
     "typescript": "^4.9.5",
     "webpack": "^5.74.0",

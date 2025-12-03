@@ -8,6 +8,6 @@ module.exports = merge(baseConfig, {
     watch: false,
     output: {
         filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'output', 'dist'),
     },
 });

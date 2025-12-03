@@ -38,14 +38,14 @@ jobs:
 
       - name: Prepare files for packaging
         run: |
-          mkdir -p release/dist # Create a new directory structure
-          cp -r dist/* release/dist/ 
-          cp module.json release/ # Make sure this is the modified module.json
+          mkdir -p release
+          cp -r output/* release/ 
+          cp module.json release/ # Modified with proper data
 
       - name: Package files
         run: |
           cd release
-          zip -r ../module.zip . # Zip the contents of release, maintaining the new structure
+          zip -r ../module.zip . 
 
       - name: Update Release with Files
         id: create_version_release
@@ -56,6 +56,6 @@ jobs:
           draft: ${{ github.event.release.unpublished }}
           prerelease: ${{ github.event.release.prerelease }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: './release/module.json, ./module.zip' # Ensure this points to the modified module.json
+          artifacts: './release/module.json, ./module.zip'
           tag: ${{ github.event.release.tag_name }}
           body: ${{ github.event.release.body }}

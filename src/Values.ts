@@ -1,1360 +1,324 @@
 import {Options, Statistics} from "./Keys";
 
-const aliases = {
-    abilityScores: {
-        "-1": {
-            [Options.extreme]: "4",
-            [Options.high]: "3",
-            [Options.moderate]: "2",
-            [Options.low]: "0",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "0": {
-            [Options.extreme]: "4",
-            [Options.high]: "3",
-            [Options.moderate]: "2",
-            [Options.low]: "0",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "1": {
-            [Options.extreme]: "5",
-            [Options.high]: "4",
-            [Options.moderate]: "3",
-            [Options.low]: "1",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "2": {
-            [Options.extreme]: "5",
-            [Options.high]: "4",
-            [Options.moderate]: "3",
-            [Options.low]: "1",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "3": {
-            [Options.extreme]: "5",
-            [Options.high]: "4",
-            [Options.moderate]: "3",
-            [Options.low]: "1",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "4": {
-            [Options.extreme]: "6",
-            [Options.high]: "5",
-            [Options.moderate]: "3",
-            [Options.low]: "2",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "5": {
-            [Options.extreme]: "6",
-            [Options.high]: "5",
-            [Options.moderate]: "4",
-            [Options.low]: "2",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "6": {
-            [Options.extreme]: "7",
-            [Options.high]: "5",
-            [Options.moderate]: "4",
-            [Options.low]: "2",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "7": {
-            [Options.extreme]: "7",
-            [Options.high]: "6",
-            [Options.moderate]: "4",
-            [Options.low]: "2",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "8": {
-            [Options.extreme]: "7",
-            [Options.high]: "6",
-            [Options.moderate]: "4",
-            [Options.low]: "3",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "9": {
-            [Options.extreme]: "7",
-            [Options.high]: "6",
-            [Options.moderate]: "4",
-            [Options.low]: "3",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "10": {
-            [Options.extreme]: "8",
-            [Options.high]: "7",
-            [Options.moderate]: "5",
-            [Options.low]: "3",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "11": {
-            [Options.extreme]: "8",
-            [Options.high]: "7",
-            [Options.moderate]: "5",
-            [Options.low]: "3",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "12": {
-            [Options.extreme]: "8",
-            [Options.high]: "7",
-            [Options.moderate]: "5",
-            [Options.low]: "4",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "13": {
-            [Options.extreme]: "9",
-            [Options.high]: "8",
-            [Options.moderate]: "5",
-            [Options.low]: "4",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "14": {
-            [Options.extreme]: "9",
-            [Options.high]: "8",
-            [Options.moderate]: "5",
-            [Options.low]: "4",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "15": {
-            [Options.extreme]: "9",
-            [Options.high]: "8",
-            [Options.moderate]: "6",
-            [Options.low]: "4",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "16": {
-            [Options.extreme]: "10",
-            [Options.high]: "9",
-            [Options.moderate]: "6",
-            [Options.low]: "5",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "17": {
-            [Options.extreme]: "10",
-            [Options.high]: "9",
-            [Options.moderate]: "6",
-            [Options.low]: "4",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "18": {
-            [Options.extreme]: "10",
-            [Options.high]: "9",
-            [Options.moderate]: "6",
-            [Options.low]: "5",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "19": {
-            [Options.extreme]: "11",
-            [Options.high]: "10",
-            [Options.moderate]: "6",
-            [Options.low]: "5",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "20": {
-            [Options.extreme]: "11",
-            [Options.high]: "10",
-            [Options.moderate]: "7",
-            [Options.low]: "6",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "21": {
-            [Options.extreme]: "11",
-            [Options.high]: "10",
-            [Options.moderate]: "7",
-            [Options.low]: "6",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "22": {
-            [Options.extreme]: "11",
-            [Options.high]: "10",
-            [Options.moderate]: "8",
-            [Options.low]: "6",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "23": {
-            [Options.extreme]: "11",
-            [Options.high]: "10",
-            [Options.moderate]: "8",
-            [Options.low]: "6",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        },
-        "24": {
-            [Options.extreme]: "13",
-            [Options.high]: "12",
-            [Options.moderate]: "9",
-            [Options.low]: "7",
-            [Options.terrible]: "-4",
-            [Options.abysmal]: "-5"
-        }
-    },
-    hitPoints: {
-        "-1": {
-            [Options.high]: "9",
-            [Options.moderate]: "7",
-            [Options.low]: "5"
-        },
-        "0": {
-            [Options.high]: "18",
-            [Options.moderate]: "15",
-            [Options.low]: "12"
-        },
-        "1": {
-            [Options.high]: "25",
-            [Options.moderate]: "20",
-            [Options.low]: "15"
-        },
-        "2": {
-            [Options.high]: "38",
-            [Options.moderate]: "30",
-            [Options.low]: "23"
-        },
-        "3": {
-            [Options.high]: "56",
-            [Options.moderate]: "45",
-            [Options.low]: "34"
-        },
-        "4": {
-            [Options.high]: "75",
-            [Options.moderate]: "60",
-            [Options.low]: "45"
-        },
-        "5": {
-            [Options.high]: "94",
-            [Options.moderate]: "75",
-            [Options.low]: "56"
-        },
-        "6": {
-            [Options.high]: "119",
-            [Options.moderate]: "95",
-            [Options.low]: "71"
-        },
-        "7": {
-            [Options.high]: "144",
-            [Options.moderate]: "115",
-            [Options.low]: "86"
-        },
-        "8": {
-            [Options.high]: "169",
-            [Options.moderate]: "135",
-            [Options.low]: "101"
-        },
-        "9": {
-            [Options.high]: "194",
-            [Options.moderate]: "155",
-            [Options.low]: "116"
-        },
-        "10": {
-            [Options.high]: "219",
-            [Options.moderate]: "175",
-            [Options.low]: "131"
-        },
-        "11": {
-            [Options.high]: "244",
-            [Options.moderate]: "195",
-            [Options.low]: "146"
-        },
-        "12": {
-            [Options.high]: "269",
-            [Options.moderate]: "215",
-            [Options.low]: "161"
-        },
-        "13": {
-            [Options.high]: "294",
-            [Options.moderate]: "235",
-            [Options.low]: "176"
-        },
-        "14": {
-            [Options.high]: "319",
-            [Options.moderate]: "255",
-            [Options.low]: "191"
-        },
-        "15": {
-            [Options.high]: "344",
-            [Options.moderate]: "275",
-            [Options.low]: "206"
-        },
-        "16": {
-            [Options.high]: "369",
-            [Options.moderate]: "295",
-            [Options.low]: "221"
-        },
-        "17": {
-            [Options.high]: "394",
-            [Options.moderate]: "315",
-            [Options.low]: "236"
-        },
-        "18": {
-            [Options.high]: "419",
-            [Options.moderate]: "335",
-            [Options.low]: "251"
-        },
-        "19": {
-            [Options.high]: "444",
-            [Options.moderate]: "355",
-            [Options.low]: "266"
-        },
-        "20": {
-            [Options.high]: "469",
-            [Options.moderate]: "375",
-            [Options.low]: "281"
-        },
-        "21": {
-            [Options.high]: "500",
-            [Options.moderate]: "400",
-            [Options.low]: "300"
-        },
-        "22": {
-            [Options.high]: "538",
-            [Options.moderate]: "430",
-            [Options.low]: "323"
-        },
-        "23": {
-            [Options.high]: "575",
-            [Options.moderate]: "460",
-            [Options.low]: "345"
-        },
-        "24": {
-            [Options.high]: "625",
-            [Options.moderate]: "500",
-            [Options.low]: "375"
-        }
-    },
-    perceptionSaves: {
-        "-1": {
-            [Options.extreme]: "9",
-            [Options.high]: "8",
-            [Options.moderate]: "5",
-            [Options.low]: "2",
-            [Options.terrible]: "0"
-        },
-        "0": {
-            [Options.extreme]: "10",
-            [Options.high]: "9",
-            [Options.moderate]: "6",
-            [Options.low]: "3",
-            [Options.terrible]: "1"
-        },
-        "1": {
-            [Options.extreme]: "11",
-            [Options.high]: "10",
-            [Options.moderate]: "7",
-            [Options.low]: "4",
-            [Options.terrible]: "2"
-        },
-        "2": {
-            [Options.extreme]: "12",
-            [Options.high]: "11",
-            [Options.moderate]: "8",
-            [Options.low]: "5",
-            [Options.terrible]: "3"
-        },
-        "3": {
-            [Options.extreme]: "14",
-            [Options.high]: "12",
-            [Options.moderate]: "9",
-            [Options.low]: "6",
-            [Options.terrible]: "4"
-        },
-        "4": {
-            [Options.extreme]: "15",
-            [Options.high]: "14",
-            [Options.moderate]: "11",
-            [Options.low]: "8",
-            [Options.terrible]: "6"
-        },
-        "5": {
-            [Options.extreme]: "17",
-            [Options.high]: "15",
-            [Options.moderate]: "12",
-            [Options.low]: "9",
-            [Options.terrible]: "7"
-        },
-        "6": {
-            [Options.extreme]: "18",
-            [Options.high]: "17",
-            [Options.moderate]: "14",
-            [Options.low]: "11",
-            [Options.terrible]: "8"
-        },
-        "7": {
-            [Options.extreme]: "20",
-            [Options.high]: "18",
-            [Options.moderate]: "15",
-            [Options.low]: "12",
-            [Options.terrible]: "10"
-        },
-        "8": {
-            [Options.extreme]: "21",
-            [Options.high]: "19",
-            [Options.moderate]: "16",
-            [Options.low]: "13",
-            [Options.terrible]: "11"
-        },
-        "9": {
-            [Options.extreme]: "23",
-            [Options.high]: "21",
-            [Options.moderate]: "18",
-            [Options.low]: "15",
-            [Options.terrible]: "12"
-        },
-        "10": {
-            [Options.extreme]: "24",
-            [Options.high]: "22",
-            [Options.moderate]: "19",
-            [Options.low]: "16",
-            [Options.terrible]: "14"
-        },
-        "11": {
-            [Options.extreme]: "26",
-            [Options.high]: "24",
-            [Options.moderate]: "21",
-            [Options.low]: "18",
-            [Options.terrible]: "15"
-        },
-        "12": {
-            [Options.extreme]: "27",
-            [Options.high]: "25",
-            [Options.moderate]: "22",
-            [Options.low]: "19",
-            [Options.terrible]: "16"
-        },
-        "13": {
-            [Options.extreme]: "29",
-            [Options.high]: "26",
-            [Options.moderate]: "23",
-            [Options.low]: "20",
-            [Options.terrible]: "18"
-        },
-        "14": {
-            [Options.extreme]: "30",
-            [Options.high]: "28",
-            [Options.moderate]: "25",
-            [Options.low]: "22",
-            [Options.terrible]: "19"
-        },
-        "15": {
-            [Options.extreme]: "32",
-            [Options.high]: "29",
-            [Options.moderate]: "26",
-            [Options.low]: "23",
-            [Options.terrible]: "20"
-        },
-        "16": {
-            [Options.extreme]: "33",
-            [Options.high]: "30",
-            [Options.moderate]: "28",
-            [Options.low]: "25",
-            [Options.terrible]: "22"
-        },
-        "17": {
-            [Options.extreme]: "35",
-            [Options.high]: "32",
-            [Options.moderate]: "29",
-            [Options.low]: "26",
-            [Options.terrible]: "23"
-        },
-        "18": {
-            [Options.extreme]: "36",
-            [Options.high]: "33",
-            [Options.moderate]: "30",
-            [Options.low]: "27",
-            [Options.terrible]: "24"
-        },
-        "19": {
-            [Options.extreme]: "38",
-            [Options.high]: "35",
-            [Options.moderate]: "32",
-            [Options.low]: "29",
-            [Options.terrible]: "26"
-        },
-        "20": {
-            [Options.extreme]: "39",
-            [Options.high]: "36",
-            [Options.moderate]: "33",
-            [Options.low]: "30",
-            [Options.terrible]: "27"
-        },
-        "21": {
-            [Options.extreme]: "41",
-            [Options.high]: "38",
-            [Options.moderate]: "35",
-            [Options.low]: "32",
-            [Options.terrible]: "28"
-        },
-        "22": {
-            [Options.extreme]: "43",
-            [Options.high]: "39",
-            [Options.moderate]: "36",
-            [Options.low]: "33",
-            [Options.terrible]: "30"
-        },
-        "23": {
-            [Options.extreme]: "44",
-            [Options.high]: "40",
-            [Options.moderate]: "37",
-            [Options.low]: "34",
-            [Options.terrible]: "31"
-        },
-        "24": {
-            [Options.extreme]: "46",
-            [Options.high]: "42",
-            [Options.moderate]: "38",
-            [Options.low]: "36",
-            [Options.terrible]: "32"
-        }
-    },
-    armorClass: {
-        "-1": {
-            [Options.extreme]: "18",
-            [Options.high]: "15",
-            [Options.moderate]: "14",
-            [Options.low]: "12"
-        },
-        "0": {
-            [Options.extreme]: "19",
-            [Options.high]: "16",
-            [Options.moderate]: "15",
-            [Options.low]: "13"
-        },
-        "1": {
-            [Options.extreme]: "19",
-            [Options.high]: "16",
-            [Options.moderate]: "15",
-            [Options.low]: "13"
-        },
-        "2": {
-            [Options.extreme]: "21",
-            [Options.high]: "18",
-            [Options.moderate]: "17",
-            [Options.low]: "15"
-        },
-        "3": {
-            [Options.extreme]: "22",
-            [Options.high]: "19",
-            [Options.moderate]: "18",
-            [Options.low]: "16"
-        },
-        "4": {
-            [Options.extreme]: "24",
-            [Options.high]: "21",
-            [Options.moderate]: "20",
-            [Options.low]: "18"
-        },
-        "5": {
-            [Options.extreme]: "25",
-            [Options.high]: "22",
-            [Options.moderate]: "21",
-            [Options.low]: "19"
-        },
-        "6": {
-            [Options.extreme]: "27",
-            [Options.high]: "24",
-            [Options.moderate]: "23",
-            [Options.low]: "21"
-        },
-        "7": {
-            [Options.extreme]: "28",
-            [Options.high]: "25",
-            [Options.moderate]: "24",
-            [Options.low]: "22"
-        },
-        "8": {
-            [Options.extreme]: "30",
-            [Options.high]: "27",
-            [Options.moderate]: "26",
-            [Options.low]: "24"
-        },
-        "9": {
-            [Options.extreme]: "31",
-            [Options.high]: "28",
-            [Options.moderate]: "27",
-            [Options.low]: "25"
-        },
-        "10": {
-            [Options.extreme]: "33",
-            [Options.high]: "30",
-            [Options.moderate]: "29",
-            [Options.low]: "27"
-        },
-        "11": {
-            [Options.extreme]: "34",
-            [Options.high]: "31",
-            [Options.moderate]: "30",
-            [Options.low]: "28"
-        },
-        "12": {
-            [Options.extreme]: "36",
-            [Options.high]: "33",
-            [Options.moderate]: "32",
-            [Options.low]: "30"
-        },
-        "13": {
-            [Options.extreme]: "37",
-            [Options.high]: "34",
-            [Options.moderate]: "33",
-            [Options.low]: "31"
-        },
-        "14": {
-            [Options.extreme]: "39",
-            [Options.high]: "36",
-            [Options.moderate]: "35",
-            [Options.low]: "33"
-        },
-        "15": {
-            [Options.extreme]: "40",
-            [Options.high]: "37",
-            [Options.moderate]: "36",
-            [Options.low]: "34"
-        },
-        "16": {
-            [Options.extreme]: "42",
-            [Options.high]: "39",
-            [Options.moderate]: "38",
-            [Options.low]: "36"
-        },
-        "17": {
-            [Options.extreme]: "43",
-            [Options.high]: "40",
-            [Options.moderate]: "39",
-            [Options.low]: "37"
-        },
-        "18": {
-            [Options.extreme]: "45",
-            [Options.high]: "42",
-            [Options.moderate]: "41",
-            [Options.low]: "39"
-        },
-        "19": {
-            [Options.extreme]: "46",
-            [Options.high]: "43",
-            [Options.moderate]: "42",
-            [Options.low]: "40"
-        },
-        "20": {
-            [Options.extreme]: "48",
-            [Options.high]: "45",
-            [Options.moderate]: "44",
-            [Options.low]: "42"
-        },
-        "21": {
-            [Options.extreme]: "49",
-            [Options.high]: "46",
-            [Options.moderate]: "45",
-            [Options.low]: "43"
-        },
-        "22": {
-            [Options.extreme]: "51",
-            [Options.high]: "48",
-            [Options.moderate]: "47",
-            [Options.low]: "45"
-        },
-        "23": {
-            [Options.extreme]: "52",
-            [Options.high]: "49",
-            [Options.moderate]: "48",
-            [Options.low]: "46"
-        },
-        "24": {
-            [Options.extreme]: "54",
-            [Options.high]: "51",
-            [Options.moderate]: "50",
-            [Options.low]: "48"
-        }
-    },
-    strikeBonus: {
-        "-1": {
-            [Options.extreme]: "10",
-            [Options.high]: "8",
-            [Options.moderate]: "6",
-            [Options.low]: "4"
-        },
-        "0": {
-            [Options.extreme]: "10",
-            [Options.high]: "8",
-            [Options.moderate]: "6",
-            [Options.low]: "4"
-        },
-        "1": {
-            [Options.extreme]: "11",
-            [Options.high]: "9",
-            [Options.moderate]: "7",
-            [Options.low]: "5"
-        },
-        "2": {
-            [Options.extreme]: "13",
-            [Options.high]: "11",
-            [Options.moderate]: "9",
-            [Options.low]: "7"
-        },
-        "3": {
-            [Options.extreme]: "14",
-            [Options.high]: "12",
-            [Options.moderate]: "10",
-            [Options.low]: "8"
-        },
-        "4": {
-            [Options.extreme]: "16",
-            [Options.high]: "14",
-            [Options.moderate]: "12",
-            [Options.low]: "9"
-        },
-        "5": {
-            [Options.extreme]: "17",
-            [Options.high]: "15",
-            [Options.moderate]: "13",
-            [Options.low]: "11"
-        },
-        "6": {
-            [Options.extreme]: "19",
-            [Options.high]: "17",
-            [Options.moderate]: "15",
-            [Options.low]: "12"
-        },
-        "7": {
-            [Options.extreme]: "20",
-            [Options.high]: "18",
-            [Options.moderate]: "16",
-            [Options.low]: "13"
-        },
-        "8": {
-            [Options.extreme]: "22",
-            [Options.high]: "20",
-            [Options.moderate]: "18",
-            [Options.low]: "15"
-        },
-        "9": {
-            [Options.extreme]: "23",
-            [Options.high]: "21",
-            [Options.moderate]: "19",
-            [Options.low]: "16"
-        },
-        "10": {
-            [Options.extreme]: "25",
-            [Options.high]: "23",
-            [Options.moderate]: "21",
-            [Options.low]: "17"
-        },
-        "11": {
-            [Options.extreme]: "27",
-            [Options.high]: "24",
-            [Options.moderate]: "22",
-            [Options.low]: "19"
-        },
-        "12": {
-            [Options.extreme]: "28",
-            [Options.high]: "26",
-            [Options.moderate]: "24",
-            [Options.low]: "20"
-        },
-        "13": {
-            [Options.extreme]: "29",
-            [Options.high]: "27",
-            [Options.moderate]: "25",
-            [Options.low]: "21"
-        },
-        "14": {
-            [Options.extreme]: "31",
-            [Options.high]: "29",
-            [Options.moderate]: "27",
-            [Options.low]: "23"
-        },
-        "15": {
-            [Options.extreme]: "32",
-            [Options.high]: "30",
-            [Options.moderate]: "28",
-            [Options.low]: "24"
-        },
-        "16": {
-            [Options.extreme]: "34",
-            [Options.high]: "32",
-            [Options.moderate]: "30",
-            [Options.low]: "25"
-        },
-        "17": {
-            [Options.extreme]: "35",
-            [Options.high]: "33",
-            [Options.moderate]: "31",
-            [Options.low]: "27"
-        },
-        "18": {
-            [Options.extreme]: "37",
-            [Options.high]: "35",
-            [Options.moderate]: "33",
-            [Options.low]: "28"
-        },
-        "19": {
-            [Options.extreme]: "38",
-            [Options.high]: "36",
-            [Options.moderate]: "34",
-            [Options.low]: "29"
-        },
-        "20": {
-            [Options.extreme]: "40",
-            [Options.high]: "38",
-            [Options.moderate]: "36",
-            [Options.low]: "31"
-        },
-        "21": {
-            [Options.extreme]: "41",
-            [Options.high]: "39",
-            [Options.moderate]: "37",
-            [Options.low]: "32"
-        },
-        "22": {
-            [Options.extreme]: "43",
-            [Options.high]: "41",
-            [Options.moderate]: "39",
-            [Options.low]: "33"
-        },
-        "23": {
-            [Options.extreme]: "44",
-            [Options.high]: "42",
-            [Options.moderate]: "40",
-            [Options.low]: "35"
-        },
-        "24": {
-            [Options.extreme]: "46",
-            [Options.high]: "44",
-            [Options.moderate]: "42",
-            [Options.low]: "36"
-        }
-    },
-    strikeDamage: {
-        "-1": {
-            [Options.extreme]: "1d6+1",
-            [Options.high]: "1d4+1",
-            [Options.moderate]: "1d4",
-            [Options.low]: "1d4"
-        },
-        "0": {
-            [Options.extreme]: "1d6+3",
-            [Options.high]: "1d6+2",
-            [Options.moderate]: "1d4+2",
-            [Options.low]: "1d4+1"
-        },
-        "1": {
-            [Options.extreme]: "1d8+4",
-            [Options.high]: "1d6+3",
-            [Options.moderate]: "1d6+2",
-            [Options.low]: "1d4+2"
-        },
-        "2": {
-            [Options.extreme]: "1d12+4",
-            [Options.high]: "1d10+4",
-            [Options.moderate]: "1d8+4",
-            [Options.low]: "1d6+3"
-        },
-        "3": {
-            [Options.extreme]: "1d12+8",
-            [Options.high]: "1d10+6",
-            [Options.moderate]: "1d8+6",
-            [Options.low]: "1d6+5"
-        },
-        "4": {
-            [Options.extreme]: "2d10+7",
-            [Options.high]: "2d8+5",
-            [Options.moderate]: "2d6+5",
-            [Options.low]: "2d4+4"
-        },
-        "5": {
-            [Options.extreme]: "2d12+7",
-            [Options.high]: "2d8+7",
-            [Options.moderate]: "2d6+6",
-            [Options.low]: "2d4+6"
-        },
-        "6": {
-            [Options.extreme]: "2d12+10",
-            [Options.high]: "2d8+9",
-            [Options.moderate]: "2d6+8",
-            [Options.low]: "2d4+7"
-        },
-        "7": {
-            [Options.extreme]: "2d12+12",
-            [Options.high]: "2d10+9",
-            [Options.moderate]: "2d8+8",
-            [Options.low]: "2d6+6"
-        },
-        "8": {
-            [Options.extreme]: "2d12+15",
-            [Options.high]: "2d10+11",
-            [Options.moderate]: "2d8+9",
-            [Options.low]: "2d6+8"
-        },
-        "9": {
-            [Options.extreme]: "2d12+17",
-            [Options.high]: "2d10+13",
-            [Options.moderate]: "2d8+11",
-            [Options.low]: "2d6+9"
-        },
-        "10": {
-            [Options.extreme]: "2d12+20",
-            [Options.high]: "2d12+13",
-            [Options.moderate]: "2d10+11",
-            [Options.low]: "2d6+10"
-        },
-        "11": {
-            [Options.extreme]: "2d12+22",
-            [Options.high]: "2d12+15",
-            [Options.moderate]: "2d10+12",
-            [Options.low]: "2d8+10"
-        },
-        "12": {
-            [Options.extreme]: "3d12+19",
-            [Options.high]: "3d10+14",
-            [Options.moderate]: "3d8+12",
-            [Options.low]: "3d6+10"
-        },
-        "13": {
-            [Options.extreme]: "3d12+21",
-            [Options.high]: "3d10+16",
-            [Options.moderate]: "3d8+14",
-            [Options.low]: "3d6+11"
-        },
-        "14": {
-            [Options.extreme]: "3d12+24",
-            [Options.high]: "3d10+18",
-            [Options.moderate]: "3d8+15",
-            [Options.low]: "3d6+13"
-        },
-        "15": {
-            [Options.extreme]: "3d12+26",
-            [Options.high]: "3d12+17",
-            [Options.moderate]: "3d10+14",
-            [Options.low]: "3d6+14"
-        },
-        "16": {
-            [Options.extreme]: "3d12+29",
-            [Options.high]: "3d12+18",
-            [Options.moderate]: "3d10+15",
-            [Options.low]: "3d6+15"
-        },
-        "17": {
-            [Options.extreme]: "3d12+31",
-            [Options.high]: "3d12+19",
-            [Options.moderate]: "3d10+16",
-            [Options.low]: "3d6+16"
-        },
-        "18": {
-            [Options.extreme]: "3d12+34",
-            [Options.high]: "3d12+20",
-            [Options.moderate]: "3d10+17",
-            [Options.low]: "3d6+17"
-        },
-        "19": {
-            [Options.extreme]: "4d12+29",
-            [Options.high]: "4d10+20",
-            [Options.moderate]: "4d8+17",
-            [Options.low]: "4d6+14"
-        },
-        "20": {
-            [Options.extreme]: "4d12+32",
-            [Options.high]: "4d10+22",
-            [Options.moderate]: "4d8+19",
-            [Options.low]: "4d6+15"
-        },
-        "21": {
-            [Options.extreme]: "4d12+34",
-            [Options.high]: "4d10+24",
-            [Options.moderate]: "4d8+20",
-            [Options.low]: "4d6+17"
-        },
-        "22": {
-            [Options.extreme]: "4d12+37",
-            [Options.high]: "4d10+26",
-            [Options.moderate]: "4d8+22",
-            [Options.low]: "4d6+18"
-        },
-        "23": {
-            [Options.extreme]: "4d12+39",
-            [Options.high]: "4d12+24",
-            [Options.moderate]: "4d10+20",
-            [Options.low]: "4d6+19"
-        },
-        "24": {
-            [Options.extreme]: "4d12+42",
-            [Options.high]: "4d12+26",
-            [Options.moderate]: "4d10+22",
-            [Options.low]: "4d6+21"
-        }
-    },
-    spellcasting: {
-        "-1": {
-            [Options.extreme]: "11",
-            [Options.high]: "8",
-            [Options.moderate]: "5",
-        },
-        "0": {
-            [Options.extreme]: "11",
-            [Options.high]: "8",
-            [Options.moderate]: "5",
-        },
-        "1": {
-            [Options.extreme]: "12",
-            [Options.high]: "9",
-            [Options.moderate]: "6",
-        },
-        "2": {
-            [Options.extreme]: "14",
-            [Options.high]: "10",
-            [Options.moderate]: "7",
-        },
-        "3": {
-            [Options.extreme]: "15",
-            [Options.high]: "12",
-            [Options.moderate]: "9",
-        },
-        "4": {
-            [Options.extreme]: "17",
-            [Options.high]: "13",
-            [Options.moderate]: "10",
-        },
-        "5": {
-            [Options.extreme]: "18",
-            [Options.high]: "14",
-            [Options.moderate]: "11",
-        },
-        "6": {
-            [Options.extreme]: "19",
-            [Options.high]: "16",
-            [Options.moderate]: "13",
-        },
-        "7": {
-            [Options.extreme]: "21",
-            [Options.high]: "17",
-            [Options.moderate]: "14",
-        },
-        "8": {
-            [Options.extreme]: "22",
-            [Options.high]: "18",
-            [Options.moderate]: "15",
-        },
-        "9": {
-            [Options.extreme]: "24",
-            [Options.high]: "20",
-            [Options.moderate]: "17",
-        },
-        "10": {
-            [Options.extreme]: "25",
-            [Options.high]: "21",
-            [Options.moderate]: "18",
-        },
-        "11": {
-            [Options.extreme]: "26",
-            [Options.high]: "22",
-            [Options.moderate]: "19",
-        },
-        "12": {
-            [Options.extreme]: "28",
-            [Options.high]: "24",
-            [Options.moderate]: "21",
-        },
-        "13": {
-            [Options.extreme]: "29",
-            [Options.high]: "25",
-            [Options.moderate]: "22",
-        },
-        "14": {
-            [Options.extreme]: "31",
-            [Options.high]: "26",
-            [Options.moderate]: "23",
-        },
-        "15": {
-            [Options.extreme]: "32",
-            [Options.high]: "28",
-            [Options.moderate]: "25",
-        },
-        "16": {
-            [Options.extreme]: "33",
-            [Options.high]: "29",
-            [Options.moderate]: "26",
-        },
-        "17": {
-            [Options.extreme]: "35",
-            [Options.high]: "30",
-            [Options.moderate]: "27",
-        },
-        "18": {
-            [Options.extreme]: "36",
-            [Options.high]: "32",
-            [Options.moderate]: "29",
-        },
-        "19": {
-            [Options.extreme]: "38",
-            [Options.high]: "33",
-            [Options.moderate]: "30",
-        },
-        "20": {
-            [Options.extreme]: "39",
-            [Options.high]: "34",
-            [Options.moderate]: "31",
-        },
-        "21": {
-            [Options.extreme]: "40",
-            [Options.high]: "36",
-            [Options.moderate]: "33",
-        },
-        "22": {
-            [Options.extreme]: "42",
-            [Options.high]: "37",
-            [Options.moderate]: "34",
-        },
-        "23": {
-            [Options.extreme]: "43",
-            [Options.high]: "38",
-            [Options.moderate]: "35",
-        },
-        "24": {
-            [Options.extreme]: "44",
-            [Options.high]: "40",
-            [Options.moderate]: "37",
-        }
-    },
-    skills: {
-        "-1": {
-            [Options.extreme]: "8",
-            [Options.high]: "5",
-            [Options.moderate]: "4",
-            [Options.low]: "2",
-            [Options.terrible]: "1"
-        },
-        "0": {
-            [Options.extreme]: "9",
-            [Options.high]: "6",
-            [Options.moderate]: "5",
-            [Options.low]: "3",
-            [Options.terrible]: "2"
-        },
-        "1": {
-            [Options.extreme]: "10",
-            [Options.high]: "7",
-            [Options.moderate]: "6",
-            [Options.low]: "4",
-            [Options.terrible]: "3"
-        },
-        "2": {
-            [Options.extreme]: "11",
-            [Options.high]: "8",
-            [Options.moderate]: "7",
-            [Options.low]: "5",
-            [Options.terrible]: "4"
-        },
-        "3": {
-            [Options.extreme]: "13",
-            [Options.high]: "10",
-            [Options.moderate]: "9",
-            [Options.low]: "7",
-            [Options.terrible]: "5"
-        },
-        "4": {
-            [Options.extreme]: "15",
-            [Options.high]: "12",
-            [Options.moderate]: "10",
-            [Options.low]: "8",
-            [Options.terrible]: "7"
-        },
-        "5": {
-            [Options.extreme]: "16",
-            [Options.high]: "13",
-            [Options.moderate]: "12",
-            [Options.low]: "10",
-            [Options.terrible]: "8"
-        },
-        "6": {
-            [Options.extreme]: "18",
-            [Options.high]: "15",
-            [Options.moderate]: "13",
-            [Options.low]: "11",
-            [Options.terrible]: "9"
-        },
-        "7": {
-            [Options.extreme]: "20",
-            [Options.high]: "17",
-            [Options.moderate]: "15",
-            [Options.low]: "13",
-            [Options.terrible]: "11"
-        },
-        "8": {
-            [Options.extreme]: "21",
-            [Options.high]: "18",
-            [Options.moderate]: "16",
-            [Options.low]: "14",
-            [Options.terrible]: "12"
-        },
-        "9": {
-            [Options.extreme]: "23",
-            [Options.high]: "20",
-            [Options.moderate]: "18",
-            [Options.low]: "16",
-            [Options.terrible]: "13"
-        },
-        "10": {
-            [Options.extreme]: "25",
-            [Options.high]: "22",
-            [Options.moderate]: "19",
-            [Options.low]: "17",
-            [Options.terrible]: "15"
-        },
-        "11": {
-            [Options.extreme]: "26",
-            [Options.high]: "23",
-            [Options.moderate]: "21",
-            [Options.low]: "19",
-            [Options.terrible]: "16"
-        },
-        "12": {
-            [Options.extreme]: "28",
-            [Options.high]: "25",
-            [Options.moderate]: "22",
-            [Options.low]: "20",
-            [Options.terrible]: "17"
-        },
-        "13": {
-            [Options.extreme]: "30",
-            [Options.high]: "27",
-            [Options.moderate]: "24",
-            [Options.low]: "22",
-            [Options.terrible]: "19"
-        },
-        "14": {
-            [Options.extreme]: "31",
-            [Options.high]: "28",
-            [Options.moderate]: "25",
-            [Options.low]: "23",
-            [Options.terrible]: "20"
-        },
-        "15": {
-            [Options.extreme]: "33",
-            [Options.high]: "30",
-            [Options.moderate]: "27",
-            [Options.low]: "25",
-            [Options.terrible]: "21"
-        },
-        "16": {
-            [Options.extreme]: "35",
-            [Options.high]: "32",
-            [Options.moderate]: "28",
-            [Options.low]: "26",
-            [Options.terrible]: "23"
-        },
-        "17": {
-            [Options.extreme]: "36",
-            [Options.high]: "33",
-            [Options.moderate]: "30",
-            [Options.low]: "28",
-            [Options.terrible]: "24"
-        },
-        "18": {
-            [Options.extreme]: "38",
-            [Options.high]: "35",
-            [Options.moderate]: "31",
-            [Options.low]: "29",
-            [Options.terrible]: "25"
-        },
-        "19": {
-            [Options.extreme]: "40",
-            [Options.high]: "37",
-            [Options.moderate]: "33",
-            [Options.low]: "31",
-            [Options.terrible]: "27"
-        },
-        "20": {
-            [Options.extreme]: "41",
-            [Options.high]: "38",
-            [Options.moderate]: "34",
-            [Options.low]: "32",
-            [Options.terrible]: "28"
-        },
-        "21": {
-            [Options.extreme]: "43",
-            [Options.high]: "40",
-            [Options.moderate]: "36",
-            [Options.low]: "34",
-            [Options.terrible]: "29"
-        },
-        "22": {
-            [Options.extreme]: "45",
-            [Options.high]: "42",
-            [Options.moderate]: "37",
-            [Options.low]: "35",
-            [Options.terrible]: "31"
-        },
-        "23": {
-            [Options.extreme]: "46",
-            [Options.high]: "43",
-            [Options.moderate]: "38",
-            [Options.low]: "36",
-            [Options.terrible]: "32"
-        },
-        "24": {
-            [Options.extreme]: "48",
-            [Options.high]: "45",
-            [Options.moderate]: "40",
-            [Options.low]: "38",
-            [Options.terrible]: "33"
-        }
-    },
-}
+type TierRecord = Record<string, Record<string, string>>;
+
+const detectionDisableData = [
+    {level: "-1", extreme: 18, high: 15, moderate: 14, low: 12},
+    {level: "0", extreme: 19, high: 16, moderate: 14, low: 13},
+    {level: "1", extreme: 20, high: 17, moderate: 15, low: 14},
+    {level: "2", extreme: 21, high: 18, moderate: 16, low: 15},
+    {level: "3", extreme: 23, high: 20, moderate: 18, low: 17},
+    {level: "4", extreme: 25, high: 22, moderate: 19, low: 18},
+    {level: "5", extreme: 26, high: 23, moderate: 20, low: 20},
+    {level: "6", extreme: 28, high: 25, moderate: 22, low: 21},
+    {level: "7", extreme: 30, high: 27, moderate: 23, low: 23},
+    {level: "8", extreme: 31, high: 28, moderate: 24, low: 24},
+    {level: "9", extreme: 33, high: 30, moderate: 26, low: 26},
+    {level: "10", extreme: 35, high: 32, moderate: 27, low: 27},
+    {level: "11", extreme: 36, high: 33, moderate: 28, low: 29},
+    {level: "12", extreme: 38, high: 35, moderate: 30, low: 30},
+    {level: "13", extreme: 40, high: 37, moderate: 31, low: 32},
+    {level: "14", extreme: 41, high: 38, moderate: 32, low: 33},
+    {level: "15", extreme: 43, high: 40, moderate: 34, low: 35},
+    {level: "16", extreme: 45, high: 42, moderate: 35, low: 36},
+    {level: "17", extreme: 46, high: 43, moderate: 36, low: 38},
+    {level: "18", extreme: 48, high: 45, moderate: 38, low: 39},
+    {level: "19", extreme: 50, high: 47, moderate: 39, low: 41},
+    {level: "20", extreme: 51, high: 48, moderate: 40, low: 42},
+    {level: "21", extreme: 53, high: 50, moderate: 42, low: 44},
+    {level: "22", extreme: 55, high: 52, moderate: 44, low: 45},
+    {level: "23", extreme: 56, high: 53, moderate: 46, low: 46},
+    {level: "24", extreme: 58, high: 55, moderate: 48, low: 48},
+];
+
+const detectionDisable: TierRecord = detectionDisableData.reduce((acc, entry) => {
+    acc[entry.level] = {
+        [Options.extreme]: entry.extreme.toString(),
+        [Options.high]: entry.high.toString(),
+        [Options.moderate]: entry.moderate.toString(),
+        [Options.low]: entry.low.toString(),
+    };
+    return acc;
+}, {});
+
+const acData = [
+    {level: "-1", extreme: 18, high: 15, low: 12},
+    {level: "0", extreme: 19, high: 16, low: 13},
+    {level: "1", extreme: 19, high: 16, low: 13},
+    {level: "2", extreme: 21, high: 18, low: 15},
+    {level: "3", extreme: 22, high: 19, low: 16},
+    {level: "4", extreme: 24, high: 21, low: 18},
+    {level: "5", extreme: 25, high: 22, low: 19},
+    {level: "6", extreme: 27, high: 24, low: 21},
+    {level: "7", extreme: 28, high: 25, low: 22},
+    {level: "8", extreme: 30, high: 27, low: 24},
+    {level: "9", extreme: 31, high: 28, low: 25},
+    {level: "10", extreme: 33, high: 30, low: 27},
+    {level: "11", extreme: 34, high: 31, low: 28},
+    {level: "12", extreme: 36, high: 33, low: 30},
+    {level: "13", extreme: 37, high: 34, low: 31},
+    {level: "14", extreme: 39, high: 36, low: 33},
+    {level: "15", extreme: 40, high: 37, low: 34},
+    {level: "16", extreme: 42, high: 39, low: 36},
+    {level: "17", extreme: 43, high: 40, low: 37},
+    {level: "18", extreme: 45, high: 42, low: 39},
+    {level: "19", extreme: 46, high: 43, low: 40},
+    {level: "20", extreme: 48, high: 45, low: 42},
+    {level: "21", extreme: 49, high: 46, low: 43},
+    {level: "22", extreme: 51, high: 48, low: 45},
+    {level: "23", extreme: 52, high: 49, low: 46},
+    {level: "24", extreme: 54, high: 51, low: 48},
+];
+
+const armorClass: TierRecord = acData.reduce((acc, entry) => {
+    acc[entry.level] = {
+        [Options.extreme]: entry.extreme.toString(),
+        [Options.high]: entry.high.toString(),
+        [Options.moderate]: entry.high.toString(),
+        [Options.low]: entry.low.toString(),
+    };
+    return acc;
+}, {});
+
+const saveData = [
+    {level: "-1", extreme: 9, high: 8, moderate: 5, low: 2},
+    {level: "0", extreme: 10, high: 9, moderate: 6, low: 3},
+    {level: "1", extreme: 11, high: 10, moderate: 7, low: 4},
+    {level: "2", extreme: 12, high: 11, moderate: 8, low: 5},
+    {level: "3", extreme: 14, high: 12, moderate: 9, low: 6},
+    {level: "4", extreme: 15, high: 14, moderate: 11, low: 8},
+    {level: "5", extreme: 17, high: 15, moderate: 12, low: 9},
+    {level: "6", extreme: 18, high: 17, moderate: 14, low: 11},
+    {level: "7", extreme: 20, high: 18, moderate: 15, low: 12},
+    {level: "8", extreme: 21, high: 19, moderate: 16, low: 13},
+    {level: "9", extreme: 23, high: 21, moderate: 18, low: 15},
+    {level: "10", extreme: 24, high: 22, moderate: 19, low: 16},
+    {level: "11", extreme: 26, high: 24, moderate: 21, low: 18},
+    {level: "12", extreme: 27, high: 25, moderate: 22, low: 19},
+    {level: "13", extreme: 29, high: 26, moderate: 23, low: 20},
+    {level: "14", extreme: 30, high: 28, moderate: 25, low: 22},
+    {level: "15", extreme: 32, high: 29, moderate: 26, low: 23},
+    {level: "16", extreme: 33, high: 30, moderate: 28, low: 25},
+    {level: "17", extreme: 35, high: 32, moderate: 29, low: 26},
+    {level: "18", extreme: 36, high: 33, moderate: 30, low: 27},
+    {level: "19", extreme: 38, high: 35, moderate: 32, low: 29},
+    {level: "20", extreme: 39, high: 36, moderate: 33, low: 30},
+    {level: "21", extreme: 41, high: 38, moderate: 35, low: 32},
+    {level: "22", extreme: 43, high: 39, moderate: 36, low: 33},
+    {level: "23", extreme: 44, high: 40, moderate: 37, low: 34},
+    {level: "24", extreme: 46, high: 42, moderate: 38, low: 36},
+];
+
+const saves: TierRecord = saveData.reduce((acc, entry) => {
+    acc[entry.level] = {
+        [Options.extreme]: entry.extreme.toString(),
+        [Options.high]: entry.high.toString(),
+        [Options.moderate]: entry.moderate.toString(),
+        [Options.low]: entry.low.toString(),
+    };
+    return acc;
+}, {});
+
+const hardnessData = [
+    {level: "-1", low: 2, moderate: 3, high: 4},
+    {level: "0", low: 3, moderate: 4, high: 5},
+    {level: "1", low: 5, moderate: 6, high: 7},
+    {level: "2", low: 7, moderate: 8, high: 9},
+    {level: "3", low: 10, moderate: 11, high: 12},
+    {level: "4", low: 11, moderate: 12, high: 13},
+    {level: "5", low: 12, moderate: 13, high: 14},
+    {level: "6", low: 13, moderate: 14, high: 15},
+    {level: "7", low: 14, moderate: 15, high: 16},
+    {level: "8", low: 15, moderate: 16, high: 17},
+    {level: "9", low: 16, moderate: 17, high: 18},
+    {level: "10", low: 17, moderate: 18, high: 19},
+    {level: "11", low: 19, moderate: 20, high: 21},
+    {level: "12", low: 20, moderate: 21, high: 22},
+    {level: "13", low: 21, moderate: 22, high: 23},
+    {level: "14", low: 22, moderate: 23, high: 24},
+    {level: "15", low: 23, moderate: 24, high: 25},
+    {level: "16", low: 25, moderate: 26, high: 27},
+    {level: "17", low: 27, moderate: 28, high: 29},
+    {level: "18", low: 29, moderate: 30, high: 31},
+    {level: "19", low: 31, moderate: 32, high: 33},
+    {level: "20", low: 33, moderate: 34, high: 35},
+    {level: "21", low: 36, moderate: 37, high: 38},
+    {level: "22", low: 39, moderate: 40, high: 41},
+    {level: "23", low: 44, moderate: 45, high: 46},
+    {level: "24", low: 46, moderate: 48, high: 50},
+];
+
+const hardness = hardnessData.reduce<TierRecord>((acc, entry) => {
+    acc[entry.level] = {
+        [Options.high]: entry.high.toString(),
+        [Options.moderate]: entry.moderate.toString(),
+        [Options.low]: entry.low.toString(),
+    };
+    return acc;
+}, {});
+
+const hpData = [
+    {level: "-1", low: 11, moderate: 12, high: 13},
+    {level: "0", low: 15, moderate: 16, high: 17},
+    {level: "1", low: 23, moderate: 24, high: 25},
+    {level: "2", low: 30, moderate: 32, high: 34},
+    {level: "3", low: 42, moderate: 44, high: 46},
+    {level: "4", low: 46, moderate: 48, high: 50},
+    {level: "5", low: 50, moderate: 52, high: 54},
+    {level: "6", low: 54, moderate: 56, high: 58},
+    {level: "7", low: 58, moderate: 60, high: 62},
+    {level: "8", low: 62, moderate: 64, high: 66},
+    {level: "9", low: 66, moderate: 68, high: 70},
+    {level: "10", low: 70, moderate: 72, high: 74},
+    {level: "11", low: 78, moderate: 80, high: 82},
+    {level: "12", low: 82, moderate: 84, high: 86},
+    {level: "13", low: 86, moderate: 88, high: 90},
+    {level: "14", low: 90, moderate: 92, high: 94},
+    {level: "15", low: 94, moderate: 96, high: 98},
+    {level: "16", low: 101, moderate: 104, high: 107},
+    {level: "17", low: 109, moderate: 112, high: 115},
+    {level: "18", low: 117, moderate: 120, high: 123},
+    {level: "19", low: 125, moderate: 128, high: 131},
+    {level: "20", low: 133, moderate: 136, high: 139},
+    {level: "21", low: 144, moderate: 148, high: 152},
+    {level: "22", low: 156, moderate: 160, high: 164},
+    {level: "23", low: 168, moderate: 172, high: 176},
+    {level: "24", low: 180, moderate: 184, high: 188},
+];
+
+const hitPoints = hpData.reduce<TierRecord>((acc, entry) => {
+    acc[entry.level] = {
+        [Options.high]: entry.high.toString(),
+        [Options.moderate]: entry.moderate.toString(),
+        [Options.low]: entry.low.toString(),
+    };
+    return acc;
+}, {});
+
+const attackBonusData = [
+    {level: "-1", simple: 10, complex: 8},
+    {level: "0", simple: 11, complex: 8},
+    {level: "1", simple: 13, complex: 9},
+    {level: "2", simple: 14, complex: 11},
+    {level: "3", simple: 16, complex: 12},
+    {level: "4", simple: 17, complex: 14},
+    {level: "5", simple: 19, complex: 15},
+    {level: "6", simple: 20, complex: 17},
+    {level: "7", simple: 22, complex: 18},
+    {level: "8", simple: 23, complex: 20},
+    {level: "9", simple: 25, complex: 21},
+    {level: "10", simple: 26, complex: 23},
+    {level: "11", simple: 28, complex: 24},
+    {level: "12", simple: 29, complex: 26},
+    {level: "13", simple: 31, complex: 27},
+    {level: "14", simple: 32, complex: 29},
+    {level: "15", simple: 34, complex: 30},
+    {level: "16", simple: 35, complex: 32},
+    {level: "17", simple: 37, complex: 33},
+    {level: "18", simple: 38, complex: 35},
+    {level: "19", simple: 40, complex: 36},
+    {level: "20", simple: 41, complex: 38},
+    {level: "21", simple: 43, complex: 39},
+    {level: "22", simple: 44, complex: 41},
+    {level: "23", simple: 46, complex: 42},
+    {level: "24", simple: 47, complex: 44},
+];
+
+const attackBonus = attackBonusData.reduce<TierRecord>((acc, entry) => {
+    acc[entry.level] = {
+        [Options.simple]: entry.simple.toString(),
+        [Options.complex]: entry.complex.toString(),
+    };
+    return acc;
+}, {});
+
+const damageData = [
+    {level: "-1", simple: "2d4+1", complex: "1d4+1"},
+    {level: "0", simple: "2d6+3", complex: "1d6+2"},
+    {level: "1", simple: "2d6+5", complex: "1d6+3"},
+    {level: "2", simple: "2d10+7", complex: "1d10+4"},
+    {level: "3", simple: "2d10+13", complex: "1d10+6"},
+    {level: "4", simple: "4d8+10", complex: "2d8+5"},
+    {level: "5", simple: "4d8+14", complex: "2d8+7"},
+    {level: "6", simple: "4d8+18", complex: "2d8+9"},
+    {level: "7", simple: "4d10+18", complex: "2d10+9"},
+    {level: "8", simple: "4d10+22", complex: "2d10+11"},
+    {level: "9", simple: "4d10+26", complex: "2d10+13"},
+    {level: "10", simple: "4d12+26", complex: "2d12+13"},
+    {level: "11", simple: "4d12+30", complex: "2d12+15"},
+    {level: "12", simple: "6d10+27", complex: "3d10+14"},
+    {level: "13", simple: "6d10+31", complex: "3d10+16"},
+    {level: "14", simple: "6d10+35", complex: "3d10+18"},
+    {level: "15", simple: "6d12+33", complex: "3d12+17"},
+    {level: "16", simple: "6d12+35", complex: "3d12+18"},
+    {level: "17", simple: "6d12+37", complex: "3d12+19"},
+    {level: "18", simple: "6d12+41", complex: "3d12+20"},
+    {level: "19", simple: "8d10+40", complex: "4d10+20"},
+    {level: "20", simple: "8d10+44", complex: "4d10+22"},
+    {level: "21", simple: "8d10+48", complex: "4d10+24"},
+    {level: "22", simple: "8d10+52", complex: "4d10+26"},
+    {level: "23", simple: "8d12+48", complex: "4d12+24"},
+    {level: "24", simple: "8d12+52", complex: "4d12+26"},
+];
+
+const damage = damageData.reduce<TierRecord>((acc, entry) => {
+    acc[entry.level] = {
+        [Options.simple]: entry.simple,
+        [Options.complex]: entry.complex,
+        [Options.none]: "",
+    };
+    return acc;
+}, {});
+
+const saveDcData = [
+    {level: "-1", extreme: 19, high: 16},
+    {level: "0", extreme: 19, high: 16},
+    {level: "1", extreme: 20, high: 17},
+    {level: "2", extreme: 22, high: 18},
+    {level: "3", extreme: 23, high: 20},
+    {level: "4", extreme: 25, high: 21},
+    {level: "5", extreme: 26, high: 22},
+    {level: "6", extreme: 27, high: 24},
+    {level: "7", extreme: 29, high: 25},
+    {level: "8", extreme: 30, high: 26},
+    {level: "9", extreme: 32, high: 28},
+    {level: "10", extreme: 33, high: 29},
+    {level: "11", extreme: 34, high: 30},
+    {level: "12", extreme: 36, high: 32},
+    {level: "13", extreme: 37, high: 33},
+    {level: "14", extreme: 39, high: 34},
+    {level: "15", extreme: 40, high: 36},
+    {level: "16", extreme: 41, high: 37},
+    {level: "17", extreme: 43, high: 38},
+    {level: "18", extreme: 44, high: 40},
+    {level: "19", extreme: 46, high: 41},
+    {level: "20", extreme: 47, high: 42},
+    {level: "21", extreme: 48, high: 44},
+    {level: "22", extreme: 50, high: 45},
+    {level: "23", extreme: 51, high: 46},
+    {level: "24", extreme: 52, high: 48},
+];
+
+const saveDC = saveDcData.reduce<TierRecord>((acc, entry) => {
+    const moderate = Math.round((entry.extreme + entry.high) / 2);
+    acc[entry.level] = {
+        [Options.extreme]: entry.extreme.toString(),
+        [Options.high]: entry.high.toString(),
+        [Options.moderate]: moderate.toString(),
+    };
+    return acc;
+}, {});
 
 export const statisticValues = {
-    [Statistics.str]: aliases.abilityScores,
-    [Statistics.dex]: aliases.abilityScores,
-    [Statistics.con]: aliases.abilityScores,
-    [Statistics.int]: aliases.abilityScores,
-    [Statistics.wis]: aliases.abilityScores,
-    [Statistics.cha]: aliases.abilityScores,
-
-    [Statistics.hp]: aliases.hitPoints,
-
-    [Statistics.per]: aliases.perceptionSaves,
-
-    [Statistics.ac]: aliases.armorClass,
-
-    [Statistics.fort]: aliases.perceptionSaves,
-    [Statistics.ref]: aliases.perceptionSaves,
-    [Statistics.wil]: aliases.perceptionSaves,
-
-    [Statistics.strikeBonus]: aliases.strikeBonus,
-    [Statistics.strikeDamage]: aliases.strikeDamage,
-    [Statistics.spellcasting]: aliases.spellcasting,
-
-    [Statistics.acrobatics]: aliases.skills,
-    [Statistics.arcana]: aliases.skills,
-    [Statistics.athletics]: aliases.skills,
-    [Statistics.crafting]: aliases.skills,
-    [Statistics.deception]: aliases.skills,
-    [Statistics.diplomacy]: aliases.skills,
-    [Statistics.intimidation]: aliases.skills,
-    [Statistics.medicine]: aliases.skills,
-    [Statistics.nature]: aliases.skills,
-    [Statistics.occultism]: aliases.skills,
-    [Statistics.performance]: aliases.skills,
-    [Statistics.religion]: aliases.skills,
-    [Statistics.society]: aliases.skills,
-    [Statistics.stealth]: aliases.skills,
-    [Statistics.survival]: aliases.skills,
-    [Statistics.thievery]: aliases.skills,
-}
+    [Statistics.stealth]: detectionDisable,
+    [Statistics.disable]: detectionDisable,
+    [Statistics.hp]: hitPoints,
+    [Statistics.hardness]: hardness,
+    [Statistics.ac]: armorClass,
+    [Statistics.fort]: saves,
+    [Statistics.ref]: saves,
+    [Statistics.wil]: saves,
+    [Statistics.attackBonus]: attackBonus,
+    [Statistics.damage]: damage,
+    [Statistics.saveDC]: saveDC,
+};
