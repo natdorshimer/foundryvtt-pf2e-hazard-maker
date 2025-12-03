@@ -16,8 +16,9 @@ Below are the images of the form:
 First part contains all of the important values like Hit Points, Level, Name etc.
 The Second part contains all of the skills as well as the Submit Button
 
-![Page One of Hazard Form](https://raw.githubusercontent.com/natdorshimer/fvtt-module-pf2e-HazardMaker/master/images/PageOne.png)
+
+![Page One of Hazard Form](https://raw.githubusercontent.com/natdorshimer/foundryvtt-pf2e-hazard-maker/refs/heads/master/images/PageOne.png)
 
 Here is a comparison of size in relation to UI:
-![Size Overall](https://raw.githubusercontent.com/natdorshimer/fvtt-module-pf2e-HazardMaker/master/images/ImageToScale.png)
-![Size in Relation to Sidebar](https://raw.githubusercontent.com/natdorshimer/fvtt-module-pf2e-HazardMaker/master/images/Size.png)
+![Size Overall](https://raw.githubusercontent.com/natdorshimer/foundryvtt-pf2e-hazard-maker/refs/heads/master/images/ImageToScale.png)
+![Size in Relation to Sidebar](https://raw.githubusercontent.com/natdorshimer/foundryvtt-pf2e-hazard-maker/refs/heads/master/images/Size.png)
