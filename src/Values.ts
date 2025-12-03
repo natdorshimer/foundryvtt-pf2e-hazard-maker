@@ -1,35 +1,45 @@
 import {Options, Statistics} from "./Keys";
 
-type Numeric = number | string;
+type TierRecord = Record<string, Record<string, string>>;
 
 const detectionDisableData = [
-    {level: "-1", extreme: 18, high: 15, low: 12},
-    {level: "0", extreme: 19, high: 16, low: 13},
-    {level: "1", extreme: 20, high: 17, low: 14},
-    {level: "2", extreme: 21, high: 18, low: 15},
-    {level: "3", extreme: 23, high: 20, low: 17},
-    {level: "4", extreme: 25, high: 22, low: 18},
-    {level: "5", extreme: 26, high: 23, low: 20},
-    {level: "6", extreme: 28, high: 25, low: 21},
-    {level: "7", extreme: 30, high: 27, low: 23},
-    {level: "8", extreme: 31, high: 28, low: 24},
-    {level: "9", extreme: 33, high: 30, low: 26},
-    {level: "10", extreme: 35, high: 32, low: 27},
-    {level: "11", extreme: 36, high: 33, low: 29},
-    {level: "12", extreme: 38, high: 35, low: 30},
-    {level: "13", extreme: 40, high: 37, low: 32},
-    {level: "14", extreme: 41, high: 38, low: 33},
-    {level: "15", extreme: 43, high: 40, low: 35},
-    {level: "16", extreme: 45, high: 42, low: 36},
-    {level: "17", extreme: 46, high: 43, low: 38},
-    {level: "18", extreme: 48, high: 45, low: 39},
-    {level: "19", extreme: 50, high: 47, low: 41},
-    {level: "20", extreme: 51, high: 48, low: 42},
-    {level: "21", extreme: 53, high: 50, low: 44},
-    {level: "22", extreme: 55, high: 52, low: 45},
-    {level: "23", extreme: 56, high: 53, low: 46},
-    {level: "24", extreme: 58, high: 55, low: 48},
+    {level: "-1", extreme: 18, high: 15, moderate: 14, low: 12},
+    {level: "0", extreme: 19, high: 16, moderate: 14, low: 13},
+    {level: "1", extreme: 20, high: 17, moderate: 15, low: 14},
+    {level: "2", extreme: 21, high: 18, moderate: 16, low: 15},
+    {level: "3", extreme: 23, high: 20, moderate: 18, low: 17},
+    {level: "4", extreme: 25, high: 22, moderate: 19, low: 18},
+    {level: "5", extreme: 26, high: 23, moderate: 20, low: 20},
+    {level: "6", extreme: 28, high: 25, moderate: 22, low: 21},
+    {level: "7", extreme: 30, high: 27, moderate: 23, low: 23},
+    {level: "8", extreme: 31, high: 28, moderate: 24, low: 24},
+    {level: "9", extreme: 33, high: 30, moderate: 26, low: 26},
+    {level: "10", extreme: 35, high: 32, moderate: 27, low: 27},
+    {level: "11", extreme: 36, high: 33, moderate: 28, low: 29},
+    {level: "12", extreme: 38, high: 35, moderate: 30, low: 30},
+    {level: "13", extreme: 40, high: 37, moderate: 31, low: 32},
+    {level: "14", extreme: 41, high: 38, moderate: 32, low: 33},
+    {level: "15", extreme: 43, high: 40, moderate: 34, low: 35},
+    {level: "16", extreme: 45, high: 42, moderate: 35, low: 36},
+    {level: "17", extreme: 46, high: 43, moderate: 36, low: 38},
+    {level: "18", extreme: 48, high: 45, moderate: 38, low: 39},
+    {level: "19", extreme: 50, high: 47, moderate: 39, low: 41},
+    {level: "20", extreme: 51, high: 48, moderate: 40, low: 42},
+    {level: "21", extreme: 53, high: 50, moderate: 42, low: 44},
+    {level: "22", extreme: 55, high: 52, moderate: 44, low: 45},
+    {level: "23", extreme: 56, high: 53, moderate: 46, low: 46},
+    {level: "24", extreme: 58, high: 55, moderate: 48, low: 48},
 ];
+
+const detectionDisable: TierRecord = detectionDisableData.reduce((acc, entry) => {
+    acc[entry.level] = {
+        [Options.extreme]: entry.extreme.toString(),
+        [Options.high]: entry.high.toString(),
+        [Options.moderate]: entry.moderate.toString(),
+        [Options.low]: entry.low.toString(),
+    };
+    return acc;
+}, {});
 
 const acData = [
     {level: "-1", extreme: 18, high: 15, low: 12},
@@ -60,34 +70,54 @@ const acData = [
     {level: "24", extreme: 54, high: 51, low: 48},
 ];
 
+const armorClass: TierRecord = acData.reduce((acc, entry) => {
+    acc[entry.level] = {
+        [Options.extreme]: entry.extreme.toString(),
+        [Options.high]: entry.high.toString(),
+        [Options.moderate]: entry.high.toString(),
+        [Options.low]: entry.low.toString(),
+    };
+    return acc;
+}, {});
+
 const saveData = [
-    {level: "-1", extreme: 9, high: 8, low: 2},
-    {level: "0", extreme: 10, high: 9, low: 3},
-    {level: "1", extreme: 11, high: 10, low: 4},
-    {level: "2", extreme: 12, high: 11, low: 5},
-    {level: "3", extreme: 14, high: 12, low: 6},
-    {level: "4", extreme: 15, high: 14, low: 8},
-    {level: "5", extreme: 17, high: 15, low: 9},
-    {level: "6", extreme: 18, high: 17, low: 11},
-    {level: "7", extreme: 20, high: 18, low: 12},
-    {level: "8", extreme: 21, high: 19, low: 13},
-    {level: "9", extreme: 23, high: 21, low: 15},
-    {level: "10", extreme: 24, high: 22, low: 16},
-    {level: "11", extreme: 26, high: 24, low: 18},
-    {level: "12", extreme: 27, high: 25, low: 19},
-    {level: "13", extreme: 29, high: 26, low: 20},
-    {level: "14", extreme: 30, high: 28, low: 22},
-    {level: "15", extreme: 32, high: 29, low: 23},
-    {level: "16", extreme: 33, high: 30, low: 25},
-    {level: "17", extreme: 35, high: 32, low: 26},
-    {level: "18", extreme: 36, high: 33, low: 27},
-    {level: "19", extreme: 38, high: 35, low: 29},
-    {level: "20", extreme: 39, high: 36, low: 30},
-    {level: "21", extreme: 41, high: 38, low: 32},
-    {level: "22", extreme: 43, high: 39, low: 33},
-    {level: "23", extreme: 44, high: 40, low: 34},
-    {level: "24", extreme: 46, high: 42, low: 36},
+    {level: "-1", extreme: 9, high: 8, moderate: 5, low: 2},
+    {level: "0", extreme: 10, high: 9, moderate: 6, low: 3},
+    {level: "1", extreme: 11, high: 10, moderate: 7, low: 4},
+    {level: "2", extreme: 12, high: 11, moderate: 8, low: 5},
+    {level: "3", extreme: 14, high: 12, moderate: 9, low: 6},
+    {level: "4", extreme: 15, high: 14, moderate: 11, low: 8},
+    {level: "5", extreme: 17, high: 15, moderate: 12, low: 9},
+    {level: "6", extreme: 18, high: 17, moderate: 14, low: 11},
+    {level: "7", extreme: 20, high: 18, moderate: 15, low: 12},
+    {level: "8", extreme: 21, high: 19, moderate: 16, low: 13},
+    {level: "9", extreme: 23, high: 21, moderate: 18, low: 15},
+    {level: "10", extreme: 24, high: 22, moderate: 19, low: 16},
+    {level: "11", extreme: 26, high: 24, moderate: 21, low: 18},
+    {level: "12", extreme: 27, high: 25, moderate: 22, low: 19},
+    {level: "13", extreme: 29, high: 26, moderate: 23, low: 20},
+    {level: "14", extreme: 30, high: 28, moderate: 25, low: 22},
+    {level: "15", extreme: 32, high: 29, moderate: 26, low: 23},
+    {level: "16", extreme: 33, high: 30, moderate: 28, low: 25},
+    {level: "17", extreme: 35, high: 32, moderate: 29, low: 26},
+    {level: "18", extreme: 36, high: 33, moderate: 30, low: 27},
+    {level: "19", extreme: 38, high: 35, moderate: 32, low: 29},
+    {level: "20", extreme: 39, high: 36, moderate: 33, low: 30},
+    {level: "21", extreme: 41, high: 38, moderate: 35, low: 32},
+    {level: "22", extreme: 43, high: 39, moderate: 36, low: 33},
+    {level: "23", extreme: 44, high: 40, moderate: 37, low: 34},
+    {level: "24", extreme: 46, high: 42, moderate: 38, low: 36},
 ];
+
+const saves: TierRecord = saveData.reduce((acc, entry) => {
+    acc[entry.level] = {
+        [Options.extreme]: entry.extreme.toString(),
+        [Options.high]: entry.high.toString(),
+        [Options.moderate]: entry.moderate.toString(),
+        [Options.low]: entry.low.toString(),
+    };
+    return acc;
+}, {});
 
 const hardnessData = [
     {level: "-1", low: 2, moderate: 3, high: 4},
@@ -118,6 +148,15 @@ const hardnessData = [
     {level: "24", low: 46, moderate: 48, high: 50},
 ];
 
+const hardness = hardnessData.reduce<TierRecord>((acc, entry) => {
+    acc[entry.level] = {
+        [Options.high]: entry.high.toString(),
+        [Options.moderate]: entry.moderate.toString(),
+        [Options.low]: entry.low.toString(),
+    };
+    return acc;
+}, {});
+
 const hpData = [
     {level: "-1", low: 11, moderate: 12, high: 13},
     {level: "0", low: 15, moderate: 16, high: 17},
@@ -146,6 +185,15 @@ const hpData = [
     {level: "23", low: 168, moderate: 172, high: 176},
     {level: "24", low: 180, moderate: 184, high: 188},
 ];
+
+const hitPoints = hpData.reduce<TierRecord>((acc, entry) => {
+    acc[entry.level] = {
+        [Options.high]: entry.high.toString(),
+        [Options.moderate]: entry.moderate.toString(),
+        [Options.low]: entry.low.toString(),
+    };
+    return acc;
+}, {});
 
 const attackBonusData = [
     {level: "-1", simple: 10, complex: 8},
@@ -176,6 +224,14 @@ const attackBonusData = [
     {level: "24", simple: 47, complex: 44},
 ];
 
+const attackBonus = attackBonusData.reduce<TierRecord>((acc, entry) => {
+    acc[entry.level] = {
+        [Options.simple]: entry.simple.toString(),
+        [Options.complex]: entry.complex.toString(),
+    };
+    return acc;
+}, {});
+
 const damageData = [
     {level: "-1", simple: "2d4+1", complex: "1d4+1"},
     {level: "0", simple: "2d6+3", complex: "1d6+2"},
@@ -204,6 +260,15 @@ const damageData = [
     {level: "23", simple: "8d12+48", complex: "4d12+24"},
     {level: "24", simple: "8d12+52", complex: "4d12+26"},
 ];
+
+const damage = damageData.reduce<TierRecord>((acc, entry) => {
+    acc[entry.level] = {
+        [Options.simple]: entry.simple,
+        [Options.complex]: entry.complex,
+        [Options.none]: "",
+    };
+    return acc;
+}, {});
 
 const saveDcData = [
     {level: "-1", extreme: 19, high: 16},
@@ -234,67 +299,12 @@ const saveDcData = [
     {level: "24", extreme: 52, high: 48},
 ];
 
-function buildThreeTierRecord(
-    data: {level: string; extreme?: Numeric; high?: Numeric; low?: Numeric; moderate?: Numeric}[],
-    map: (entry: typeof data[number]) => Record<string, string>,
-) {
-    return data.reduce<Record<string, Record<string, string>>>((acc, entry) => {
-        acc[entry.level] = map(entry);
-        return acc;
-    }, {});
-}
-
-const detectionDisable = buildThreeTierRecord(detectionDisableData, (entry) => ({
-    [Options.extreme]: entry.extreme!.toString(),
-    [Options.high]: entry.high!.toString(),
-    [Options.low]: entry.low!.toString(),
-}));
-
-const armorClass = buildThreeTierRecord(acData, (entry) => ({
-    [Options.extreme]: entry.extreme!.toString(),
-    [Options.high]: entry.high!.toString(),
-    [Options.low]: entry.low!.toString(),
-}));
-
-const saves = buildThreeTierRecord(saveData, (entry) => ({
-    [Options.extreme]: entry.extreme!.toString(),
-    [Options.high]: entry.high!.toString(),
-    [Options.low]: entry.low!.toString(),
-}));
-
-const hardness = buildThreeTierRecord(hardnessData, (entry) => ({
-    [Options.high]: entry.high!.toString(),
-    [Options.moderate]: entry.moderate!.toString(),
-    [Options.low]: entry.low!.toString(),
-}));
-
-const hitPoints = buildThreeTierRecord(hpData, (entry) => ({
-    [Options.high]: entry.high!.toString(),
-    [Options.moderate]: entry.moderate!.toString(),
-    [Options.low]: entry.low!.toString(),
-}));
-
-const attackBonus = attackBonusData.reduce<Record<string, Record<string, string>>>((acc, entry) => {
-    acc[entry.level] = {
-        [Options.simple]: entry.simple.toString(),
-        [Options.complex]: entry.complex.toString(),
-    };
-    return acc;
-}, {});
-
-const damage = damageData.reduce<Record<string, Record<string, string>>>((acc, entry) => {
-    acc[entry.level] = {
-        [Options.simple]: entry.simple,
-        [Options.complex]: entry.complex,
-        [Options.none]: "",
-    };
-    return acc;
-}, {});
-
-const saveDC = saveDcData.reduce<Record<string, Record<string, string>>>((acc, entry) => {
+const saveDC = saveDcData.reduce<TierRecord>((acc, entry) => {
+    const moderate = Math.round((entry.extreme + entry.high) / 2);
     acc[entry.level] = {
         [Options.extreme]: entry.extreme.toString(),
         [Options.high]: entry.high.toString(),
+        [Options.moderate]: moderate.toString(),
     };
     return acc;
 }, {});

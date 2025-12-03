@@ -1,12 +1,5 @@
 import {HazardMaker} from "./HazardMaker"
 Hooks.on('init', async function () {
-    await game["settings"].register("foundryvtt-pf2e-hazard-maker", "roadmaps", {
-        scope: 'world',
-        config: false,
-        type: Object,
-        default: {}
-    });
-
     await game["settings"].register("pf2e-hazard-maker", "abbreviateName", {
         name:    "Abbreviate Hazard Maker",
         hint:    "Turn this on if you prefer to see “HM” instead of the full title “Hazard Maker” in the hazard sheet.",
@@ -26,7 +19,7 @@ function getHazardManualLabel () {
 
 Hooks.on("renderActorSheet", async function (sheet, html) {
     let actor = sheet.object
-    if (actor?.type !== "npc") {
+    if (actor?.type !== "hazard") {
         return;
     }
     if(!actor.canUserModify(game["user"], "update")) {

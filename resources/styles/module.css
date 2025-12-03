@@ -1,0 +1,17 @@
+#hazardMakerForm form{
+    display: flex;
+    flex-direction: column;
+}
+
+#hazardMakerForm .hazardMakerFormText {
+    font-size: 16px;
+}
+
+#hazardMakerForm .hazardMakerFormTextSmall {
+    font-size: 15px;
+}
+
+#hazardMakerForm label {
+    font-size: 16px;
+}
+

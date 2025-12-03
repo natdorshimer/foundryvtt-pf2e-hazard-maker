@@ -1,0 +1,73 @@
+<form>
+    <h1>{{localize "PF2EHAZARDMAKER.title"}}</h1>
+    <h2>{{localize "PF2EHAZARDMAKER.nameLevelComplexity"}}</h2>
+    <div class="form-group setting">
+        <label for="hazardMakerName" class="hazardMakerFormText">
+            {{localize "PF2EHAZARDMAKER.name"}}
+        </label>
+        <input id="hazardMakerName" name="PF2EHAZARDMAKER.name" placeholder="{{name}}" class="hazardMakerFormText">
+    </div>
+    <div class="form-group setting">
+        <label for="hazardMakerLevel" class="hazardMakerFormText">
+            {{localize "PF2EHAZARDMAKER.level"}}
+        </label>
+        <select name="PF2EHAZARDMAKER.level" id="hazardMakerLevel" class="hazardMakerFormTextSmall">
+            {{#each Levels}}
+                <option value={{this}}>{{this}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="form-group setting">
+        <label for="hazardMakerComplexity" class="hazardMakerFormText">
+            {{localize "PF2EHAZARDMAKER.complexity"}}
+        </label>
+        <select id="hazardMakerComplexity" name="PF2EHAZARDMAKER.complexity" class="hazardMakerFormTextSmall">
+            <option value="PF2EHAZARDMAKER.simple">{{localize "PF2EHAZARDMAKER.simple"}}</option>
+            <option value="PF2EHAZARDMAKER.complex">{{localize "PF2EHAZARDMAKER.complex"}}</option>
+        </select>
+    </div>
+    {{#each CreatureStatistics}}
+        <h3>{{localize this.name}}</h3>
+        {{#each this.statisticEntries}}
+            <div class="form-group setting">
+                <label for="{{concat 'hazardMaker' this.name}}" class="hazardMakerFormText">
+                    {{localize this.name}}
+                </label>
+                <select id="{{concat 'hazardMaker' this.name}}" name="{{this.name}}" class="hazardMakerFormTextSmall">
+                    {{#if this.availableOptions}}
+                        {{#each this.availableOptions}}
+                            <option value="{{this}}">
+                                {{localize this}}
+                            </option>
+                        {{/each}}
+                    {{/if}}
+                    {{#unless this.availableOptions}}
+                        {{#each ../this.availableOptions}}
+                            <option value="{{this}}">
+                                {{localize this}}
+                            </option>
+                        {{/each}}
+                    {{/unless}}
+                </select>
+            </div>
+        {{/each}}
+
+    {{/each}}
+    <div class="buttons">
+        <button type="submit" id="hazardMakerFormSubmit">{{localize "PF2EHAZARDMAKER.submit"}}</button>
+    </div>
+</form>
+<script>
+    const hazardCreatureStatistics = {{{json CreatureStatistics}}}
+    function setDefaults() {
+        for (const category of hazardCreatureStatistics) {
+            for (const statistic of category.statisticEntries) {
+                let element = document.getElementById("hazardMaker" + statistic.name)
+                if (element) {
+                    element.value = category.defaultValue;
+                }
+            }
+        }
+    }
+    setDefaults();
+</script>

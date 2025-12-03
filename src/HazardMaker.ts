@@ -1,7 +1,20 @@
-import {actorFields, DefaultCreatureStatistics, Levels, Statistics, Options, RoadMaps} from "./Keys";
+import {actorFields, DefaultCreatureStatistics, Levels, Statistics, Options} from "./Keys";
 import {statisticValues} from "./Values";
 import {BaseActor} from "@league-of-foundry-developers/foundry-vtt-types/src/foundry/common/documents.mjs";
 
+
+function createAttackSaveDescription(dc: number) {
+    const check = (saveType) => `@Check[type:${saveType}|dc:${dc}]`
+    return `
+        <p>
+            ${check('fortitude')}
+            </br>
+            ${check('reflex')}
+            </br>
+            ${check('will')}
+        </p>
+    `
+}
 
 export class HazardMaker extends FormApplication {
     data = DefaultCreatureStatistics
@@ -21,7 +34,7 @@ export class HazardMaker extends FormApplication {
             template: `modules/pf2e-hazard-maker/dist/forms/hazardMakerForm.html`,
             id: "hazardMakerForm",
             title: "Hazard Maker Form",
-            height: 833,
+            height: 675,
             width: 400
         });
     }
@@ -36,7 +49,7 @@ export class HazardMaker extends FormApplication {
     }
 
     applyHitPoints(formData) {
-        const option = formData[Statistics.hp]
+        const option = formData?.[Statistics.hp] ?? Options.moderate
         const hitPoints = parseInt(statisticValues[Statistics.hp][this.level][option])
         const brokenThreshold = Math.floor(hitPoints / 2)
         return {
@@ -53,10 +66,7 @@ export class HazardMaker extends FormApplication {
     }
 
     applyStealth(formData) {
-        const option = formData[Statistics.stealth]
-        if (!option) {
-            return {}
-        }
+        const option = formData?.[Statistics.stealth] ?? Options.moderate
         const dc = parseInt(statisticValues[Statistics.stealth][this.level][option])
         const modifier = dc - 10
         return {
@@ -66,36 +76,44 @@ export class HazardMaker extends FormApplication {
     }
 
     applyDisable(formData) {
-        const option = formData[Statistics.disable]
-        if (!option) {
-            return {}
-        }
+        const option = formData?.[Statistics.disable] ?? Options.moderate
         const dc = parseInt(statisticValues[Statistics.disable][this.level][option])
         const disableText = game["i18n"].format?.("PF2EHAZARDMAKER.DisableText", {dc}) ?? `Disable DC ${dc}`
         return {"system.details.disable": disableText}
     }
 
+    private getSaveDC(formData) {
+        const option = formData?.[Statistics.saveDC] ?? Options.moderate
+        const dcMap = statisticValues[Statistics.saveDC][this.level] || {}
+        const selectedDc = dcMap[option] ?? dcMap[Options.moderate] ?? dcMap[Options.high]
+        if (!selectedDc) {
+            return undefined
+        }
+        return parseInt(selectedDc)
+    }
+
     applySaveDC(formData) {
-        const option = formData[Statistics.saveDC]
-        if (!option) {
+        const option = formData?.[Statistics.saveDC] ?? Options.moderate
+        const dcMap = statisticValues[Statistics.saveDC][this.level] || {}
+        const selectedDc = dcMap[option] ?? dcMap[Options.moderate] ?? dcMap[Options.high]
+        if (!selectedDc) {
             return {}
         }
-        const dc = parseInt(statisticValues[Statistics.saveDC][this.level][option])
+        const dc = parseInt(selectedDc)
         return {
-            "system.attributes.classDC.value": dc,
-            "system.attributes.classDC.dc": dc,
-            "system.attributes.classDC.mod": dc - 10
+            "system.details.description": createAttackSaveDescription(dc),
         }
     }
 
-    async applyHazardAttack(formData) {
-        const attackOption = formData[Statistics.attackBonus]
-        const damageOption = formData[Statistics.damage]
-        if (!attackOption || attackOption === Options.none || !damageOption || damageOption === Options.none) {
+    async applyHazardAttack(formData?: Record<string, any>) {
+        const simpleOrComplex = this.complexity === Options.complex ? Options.complex : Options.simple
+        const attackMap = statisticValues[Statistics.attackBonus][this.level]
+        const damageMap = statisticValues[Statistics.damage][this.level]
+        if (!attackMap || !damageMap) {
             return
         }
-        const attackBonus = parseInt(statisticValues[Statistics.attackBonus][this.level][attackOption])
-        const damage = statisticValues[Statistics.damage][this.level][damageOption]
+        const attackBonus = parseInt(attackMap[simpleOrComplex])
+        const damage = damageMap[simpleOrComplex]
         if (Number.isNaN(attackBonus) || !damage) {
             return
         }
@@ -106,10 +124,14 @@ export class HazardMaker extends FormApplication {
             await item.delete()
         }
 
+        const saveDC = this.getSaveDC(formData);
+        const description = saveDC ? createAttackSaveDescription(saveDC) : undefined;
+
         const strike = {
             name: game["i18n"].localize?.("PF2EHAZARDMAKER.attackName") ?? "Hazard Attack",
             type: "melee",
             flags: {"pf2e-hazard-maker": {generatedAttack: true}},
+            description,
             system: {
                 damageRolls: {
                     hazardDamageID: {
@@ -162,7 +184,6 @@ export class HazardMaker extends FormApplication {
         return {
             "CreatureStatistics": JSON.parse(JSON.stringify(this.data)),
             "Levels": Levels,
-            "RoadMaps": RoadMaps,
             "name": this.actor.name,
             "complexity": this.complexity
         }

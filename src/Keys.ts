@@ -1,7 +1,4 @@
-export const Levels: string[] = [
-    '-1', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14',
-    '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'
-];
+export const Levels: string[] = Array.from({ length: 26 }, (_, i) => String(i - 1)); // Levels -1 to 24
 
 export enum Statistics {
     name = 'PF2EHAZARDMAKER.name',
@@ -30,71 +27,14 @@ export const actorFields = {
 };
 
 export enum Options {
-    extreme = 'PF2EMONSTERMAKER.extreme',
-    high = 'PF2EMONSTERMAKER.high',
-    moderate = 'PF2EMONSTERMAKER.moderate',
-    low = 'PF2EMONSTERMAKER.low',
-    terrible = 'PF2EMONSTERMAKER.terrible',
-    abysmal = 'PF2EMONSTERMAKER.abysmal',
-    none = 'PF2EMONSTERMAKER.none',
+    extreme = 'PF2EHAZARDMAKER.extreme',
+    high = 'PF2EHAZARDMAKER.high',
+    moderate = 'PF2EHAZARDMAKER.moderate',
+    low = 'PF2EHAZARDMAKER.low',
+    none = 'PF2EHAZARDMAKER.none',
     simple = 'PF2EHAZARDMAKER.simple',
     complex = 'PF2EHAZARDMAKER.complex',
 }
-
-export const RoadMaps = {
-    "PF2EHAZARDMAKER.simpleTrap": {
-        [Statistics.stealth]: Options.high,
-        [Statistics.disable]: Options.high,
-        [Statistics.hp]: Options.moderate,
-        [Statistics.hardness]: Options.high,
-        [Statistics.ac]: Options.high,
-        [Statistics.fort]: Options.high,
-        [Statistics.ref]: Options.high,
-        [Statistics.wil]: Options.low,
-        [Statistics.attackBonus]: Options.simple,
-        [Statistics.damage]: Options.simple,
-        [Statistics.saveDC]: Options.high,
-    },
-    "PF2EHAZARDMAKER.complexTrap": {
-        [Statistics.stealth]: Options.extreme,
-        [Statistics.disable]: Options.high,
-        [Statistics.hp]: Options.high,
-        [Statistics.hardness]: Options.high,
-        [Statistics.ac]: Options.extreme,
-        [Statistics.fort]: Options.high,
-        [Statistics.ref]: Options.high,
-        [Statistics.wil]: Options.high,
-        [Statistics.attackBonus]: Options.complex,
-        [Statistics.damage]: Options.complex,
-        [Statistics.saveDC]: Options.extreme,
-    },
-    "PF2EHAZARDMAKER.environmental": {
-        [Statistics.stealth]: Options.low,
-        [Statistics.disable]: Options.low,
-        [Statistics.hp]: Options.high,
-        [Statistics.hardness]: Options.moderate,
-        [Statistics.ac]: Options.low,
-        [Statistics.fort]: Options.high,
-        [Statistics.ref]: Options.low,
-        [Statistics.wil]: Options.low,
-        [Statistics.attackBonus]: Options.complex,
-        [Statistics.damage]: Options.complex,
-        [Statistics.saveDC]: Options.high,
-    },
-    "PF2EHAZARDMAKER.haunt": {
-        [Statistics.stealth]: Options.high,
-        [Statistics.disable]: Options.high,
-        [Statistics.hp]: Options.low,
-        [Statistics.hardness]: Options.low,
-        [Statistics.ac]: Options.low,
-        [Statistics.fort]: Options.low,
-        [Statistics.ref]: Options.low,
-        [Statistics.wil]: Options.extreme,
-        [Statistics.attackBonus]: Options.simple,
-        [Statistics.damage]: Options.complex,
-        [Statistics.saveDC]: Options.extreme,
-    },
-};
 
 export class CreatureStatistic {
     name: string;
@@ -111,15 +51,11 @@ export class CreatureStatisticCategory {
 export const DefaultCreatureStatistics: CreatureStatisticCategory[] = [
     {
         name: 'PF2EHAZARDMAKER.detection',
-        availableOptions: [Options.low, Options.high, Options.extreme],
-        defaultValue: Options.high,
+        availableOptions: [Options.low, Options.moderate, Options.high, Options.extreme],
+        defaultValue: Options.moderate,
         statisticEntries: [
-            {
-                name: Statistics.stealth,
-            },
-            {
-                name: Statistics.disable,
-            },
+            { name: Statistics.stealth },
+            { name: Statistics.disable },
         ],
     },
     {
@@ -127,54 +63,27 @@ export const DefaultCreatureStatistics: CreatureStatisticCategory[] = [
         availableOptions: [Options.low, Options.moderate, Options.high],
         defaultValue: Options.moderate,
         statisticEntries: [
-            {
-                name: Statistics.hp,
-            },
-            {
-                name: Statistics.hardness,
-            },
+            { name: Statistics.hp },
+            { name: Statistics.hardness },
         ],
     },
     {
         name: 'PF2EHAZARDMAKER.armorAndSaves',
-        availableOptions: [Options.low, Options.high, Options.extreme],
-        defaultValue: Options.high,
+        availableOptions: [Options.low, Options.moderate, Options.high, Options.extreme],
+        defaultValue: Options.moderate,
         statisticEntries: [
-            {
-                name: Statistics.ac,
-            },
-            {
-                name: Statistics.fort,
-            },
-            {
-                name: Statistics.ref,
-            },
-            {
-                name: Statistics.wil,
-            },
+            { name: Statistics.ac },
+            { name: Statistics.fort },
+            { name: Statistics.ref },
+            { name: Statistics.wil },
         ],
     },
     {
-        name: 'PF2EHAZARDMAKER.offense',
-        availableOptions: [Options.none, Options.simple, Options.complex],
-        defaultValue: Options.simple,
+        name: `PF2EHAZARDMAKER.saveDC`,
+        availableOptions: [Options.low, Options.moderate, Options.high, Options.extreme],
+        defaultValue: Options.moderate,
         statisticEntries: [
-            {
-                name: Statistics.attackBonus,
-            },
-            {
-                name: Statistics.damage,
-            },
-        ],
-    },
-    {
-        name: 'PF2EHAZARDMAKER.saveDC',
-        availableOptions: [Options.high, Options.extreme],
-        defaultValue: Options.high,
-        statisticEntries: [
-            {
-                name: Statistics.saveDC,
-            },
-        ],
-    },
+            { name: Statistics.saveDC }
+        ]
+    }
 ];
